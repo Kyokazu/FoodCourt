@@ -6,6 +6,7 @@ import com.foodcourt.proyect.infrastructure.handler.RestaurantHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import java.util.List;
 public class RestaurantController implements CrudController<RestaurantDTO, Long> {
 
     private final RestaurantHandler restaurantHandler;
+
     @Override
     public ResponseEntity<RestaurantDTO> findById(Long aLong) {
         return null;
@@ -44,8 +46,9 @@ public class RestaurantController implements CrudController<RestaurantDTO, Long>
         return null;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/createRestaurant")
-    public ResponseEntity<RestaurantDTO> createOwner(@RequestBody RestaurantDTO restaurantDTO){
+    public ResponseEntity<RestaurantDTO> createOwner(@RequestBody RestaurantDTO restaurantDTO) {
         return new ResponseEntity<>(restaurantHandler.createRestaurant(restaurantDTO), HttpStatus.ACCEPTED);
     }
 }

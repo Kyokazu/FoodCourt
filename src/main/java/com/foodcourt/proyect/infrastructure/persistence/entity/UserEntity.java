@@ -32,25 +32,26 @@ public class UserEntity implements UserDetails {
     @Size(min = 2, max = 16, message = "El tamaño del apellido debe ser entre 2 y 15 caracteres")
     private String lastname;
     @NotNull
-    @Size(min = 5, max = 15, message ="La idenfiticación debe ser entre 2 y 15 caracteres")
+    @Size(min = 5, max = 15, message = "La idenfiticación debe ser entre 2 y 15 caracteres")
     private String identification;
     @NotNull
     private LocalDate birthday;
     @NotNull
     private String phone;
     @NotNull
-    @Size(min = 10, max = 30, message ="El correo debe ser entre 10 y 30 caracteres")
+    @Size(min = 10, max = 30, message = "El correo debe ser entre 10 y 30 caracteres")
+    @Column(unique = true)
     private String mail;
     @NotNull
-    @Size(min = 5, max = 15, message ="La contraseña debe ser entre 5 y 15 caracteres")
+    @Size(min = 5, max = 15, message = "La contraseña debe ser entre 5 y 15 caracteres")
     private String password;
-    @NotNull
     @Enumerated(EnumType.STRING)
     private Role role;
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override

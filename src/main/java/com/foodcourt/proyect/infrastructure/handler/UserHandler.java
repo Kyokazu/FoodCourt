@@ -48,4 +48,8 @@ public class UserHandler implements CrudBase<UserDTO,Long> {
        return userDTOMapper.BToA(userService.createOwner(userDTOMapper.AToB(userDTO)));
     }
 
+    public UserDTO createEmployee(UserDTO userDTO){
+        return userDTOMapper.BToA(userService.createEmployee(userDTOMapper.AToB(userDTO)));
+    }
+
 }

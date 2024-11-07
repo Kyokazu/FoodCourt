@@ -1,12 +1,14 @@
 package com.foodcourt.proyect.domain.useCase;
 
-import com.example.users.domain.exception.*;
 import com.foodcourt.proyect.domain.exception.*;
 import com.foodcourt.proyect.domain.model.Restaurant;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
 import com.foodcourt.proyect.domain.servicePort.RestaurantServicePort;
+import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
 
@@ -16,9 +18,11 @@ public class CreateRestaurantUseCase implements RestaurantServicePort {
     private final RestaurantPersistencePort restaurantPersistencePort;
     private final UserPersistencePort userPersistencePort;
 
+
     @Override
     public Restaurant createRestaurant(Restaurant restaurant) {
         restaurantCreationValidations(restaurant);
+        restaurant.setOwnerId(getOwnerId());
         return restaurantPersistencePort.save(restaurant);
     }
 
@@ -50,12 +54,9 @@ public class CreateRestaurantUseCase implements RestaurantServicePort {
     }
 
     private void restaurantCreationValidations(Restaurant entity) {
-
-        if (!existentUser(entity.getOwnerId())) {
+        Long ownerId = getOwnerId();
+        if (!existentUser(ownerId)) {
             throw new UsuarioInexistenteException();
-        }
-        if (!ownerRoleValidation(entity.getOwnerId())) {
-            throw new UsuarioNoPropietarioException();
         }
         if (!validatePhone(entity.getPhone())) {
             throw new CelularNoValidoException();
@@ -71,10 +72,6 @@ public class CreateRestaurantUseCase implements RestaurantServicePort {
 
     private boolean existentUser(Long aLong) {
         return userPersistencePort.findById(aLong) != null;
-    }
-
-    private boolean ownerRoleValidation(Long aLong) {
-        return userPersistencePort.findById(aLong).getIdrol() == 1;
     }
 
     private boolean validatePhone(String phone) {
@@ -96,5 +93,11 @@ public class CreateRestaurantUseCase implements RestaurantServicePort {
             throw new NombreRestauranteException();
         }
         return true;
+    }
+
+    private Long getOwnerId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity user = (UserEntity) authentication.getPrincipal();
+        return user.getId();
     }
 }

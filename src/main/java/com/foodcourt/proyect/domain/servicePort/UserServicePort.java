@@ -7,4 +7,7 @@ public interface UserServicePort extends CrudBase<User, Long> {
 
     public User createOwner(User user);
 
+    public User createEmployee(User user);
+
+
 }

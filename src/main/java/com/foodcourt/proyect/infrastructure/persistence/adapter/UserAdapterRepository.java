@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class UserAdapterRepository implements UserPersistencePort {
     private final UserRepository userRepository;
     private final UserEntityMapper userEntityMapper;
+
     @Override
     public User findById(Long aLong) {
         return userEntityMapper.AToB(userRepository.findById(aLong).get());
@@ -38,5 +39,10 @@ public class UserAdapterRepository implements UserPersistencePort {
     @Override
     public void delete(User entity) {
         userRepository.delete(userEntityMapper.BToA(entity));
+    }
+
+    @Override
+    public Long findIdByMail(String mail) {
+        return userRepository.findByMail(mail).get().getId();
     }
 }

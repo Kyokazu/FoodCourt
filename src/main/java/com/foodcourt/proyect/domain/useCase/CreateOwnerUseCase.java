@@ -3,9 +3,11 @@ package com.foodcourt.proyect.domain.useCase;
 import com.foodcourt.proyect.domain.exception.CelularNoValidoException;
 import com.foodcourt.proyect.domain.exception.CorreoNoValidoException;
 import com.foodcourt.proyect.domain.exception.MenorDeEdadException;
+import com.foodcourt.proyect.domain.model.Role;
 import com.foodcourt.proyect.domain.model.User;
 import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
 import com.foodcourt.proyect.domain.servicePort.UserServicePort;
+import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -51,9 +53,18 @@ public class CreateOwnerUseCase implements UserServicePort {
     @Override
     public User createOwner(User user) {
         validateUser(user);
+        user.setRole(Role.OWNER);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-       return userRepository.save(user);
+        return userRepository.save(user);
 
+    }
+
+    @Override
+    public User createEmployee(User user) {
+        validateUser(user);
+        user.setRole(Role.EMPLOYEE);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
     }
 
     private void validateUser(User usuario) {
@@ -85,7 +96,6 @@ public class CreateOwnerUseCase implements UserServicePort {
     private boolean edadValido(LocalDate birthDate) {
         return Period.between(birthDate, LocalDate.now()).getYears() >= 18;
     }
-
 
 
 }

@@ -41,5 +41,10 @@ public class RestaurantAdapterRepository implements RestaurantPersistencePort {
     public void delete(Restaurant entity) {
         restaurantRepository.delete(restaurantEntityMapper.BToA(entity));
     }
+
+    @Override
+    public Long findOwnerIdByRestaurantId(Long restaurantId) {
+        return restaurantRepository.findById(restaurantId).get().getOwnerId();
+    }
 }
 

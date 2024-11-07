@@ -5,6 +5,7 @@ import com.foodcourt.proyect.domain.exception.RestauranteInexistenteException;
 import com.foodcourt.proyect.domain.model.Plate;
 import com.foodcourt.proyect.domain.repositoryPort.PlatePersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
+import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
 import com.foodcourt.proyect.domain.servicePort.PlateServicePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;

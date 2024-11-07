@@ -29,7 +29,6 @@ public class PlateHandler implements CrudBase<PlateDTO, Long> {
     }
 
     public PlateDTO updatePriceOrDescription(PlateDTO plateDTO) {
-        System.out.println("Entró al update 2");
         return plateDTOMapper.BToA(updatePlateServicePort.updateFields(plateDTOMapper.AToB(plateDTO)));
     }
 

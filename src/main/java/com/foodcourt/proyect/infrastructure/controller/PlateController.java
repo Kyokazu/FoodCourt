@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,16 +20,17 @@ public class PlateController implements CrudController<PlateDTO, Long> {
 
     private final PlateHandler plateHandler;
 
+    @PreAuthorize("hasRole('OWNER')")
     @PostMapping("/createPlate")
     @Qualifier("create")
     public ResponseEntity<PlateDTO> createPlate(@RequestBody PlateDTO plate) {
         return new ResponseEntity<>(plateHandler.createPlate(plate), HttpStatus.ACCEPTED);
     }
 
+    @PreAuthorize("hasRole('OWNER')")
     @PutMapping("/updatePlate")
     @Qualifier("update")
     public ResponseEntity<PlateDTO> updateFields(@RequestBody PlateDTO plate) {
-        System.out.println("Entró al update");
         return new ResponseEntity<>(plateHandler.updatePriceOrDescription(plate), HttpStatus.ACCEPTED);
     }
 
