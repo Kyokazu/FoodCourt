@@ -1,5 +1,6 @@
 package com.foodcourt.proyect.domain.useCase;
 
+
 import com.foodcourt.proyect.domain.exception.CelularNoValidoException;
 import com.foodcourt.proyect.domain.exception.CorreoNoValidoException;
 import com.foodcourt.proyect.domain.exception.MenorDeEdadException;
@@ -7,7 +8,6 @@ import com.foodcourt.proyect.domain.model.Role;
 import com.foodcourt.proyect.domain.model.User;
 import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
 import com.foodcourt.proyect.domain.servicePort.UserServicePort;
-import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -17,51 +17,48 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
-public class CreateOwnerUseCase implements UserServicePort {
+public class CreateEmployeeUseCase implements UserServicePort {
 
-    private final UserPersistencePort userRepository;
+
+    private final UserPersistencePort userPersistencePort;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-
-    @Override
-    public User findById(Long aLong) {
-        return userRepository.findById(aLong);
-    }
-
-    @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    @Override
-    public User save(User entity) {
-        return userRepository.save(entity);
-    }
-
-    @Override
-    public void update(User entity) {
-        if (userRepository.findById(entity.getId()) != null) {
-            userRepository.save(entity);
-        }
-    }
-
-    @Override
-    public void delete(User entity) {
-        userRepository.delete(entity);
-    }
 
     @Override
     public User createOwner(User user) {
-        validateUser(user);
-        user.setRole(Role.OWNER);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
-
+        return null;
     }
 
     @Override
     public User createEmployee(User user) {
+        validateUser(user);
+        user.setRole(Role.EMPLOYEE);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userPersistencePort.save(user);
+    }
+
+    @Override
+    public User findById(Long aLong) {
         return null;
+    }
+
+    @Override
+    public List<User> findAll() {
+        return List.of();
+    }
+
+    @Override
+    public User save(User entity) {
+        return null;
+    }
+
+    @Override
+    public void update(User entity) {
+
+    }
+
+    @Override
+    public void delete(User entity) {
+
     }
 
     private void validateUser(User usuario) {
@@ -93,6 +90,5 @@ public class CreateOwnerUseCase implements UserServicePort {
     private boolean edadValido(LocalDate birthDate) {
         return Period.between(birthDate, LocalDate.now()).getYears() >= 18;
     }
-
 
 }

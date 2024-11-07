@@ -6,10 +6,7 @@ import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
 import com.foodcourt.proyect.domain.servicePort.PlateServicePort;
 import com.foodcourt.proyect.domain.servicePort.RestaurantServicePort;
 import com.foodcourt.proyect.domain.servicePort.UserServicePort;
-import com.foodcourt.proyect.domain.useCase.CreateOwnerUseCase;
-import com.foodcourt.proyect.domain.useCase.CreatePlateUseCase;
-import com.foodcourt.proyect.domain.useCase.CreateRestaurantUseCase;
-import com.foodcourt.proyect.domain.useCase.UpdatePlateUseCase;
+import com.foodcourt.proyect.domain.useCase.*;
 import com.foodcourt.proyect.infrastructure.persistence.repository.UserRepository;
 import com.foodcourt.proyect.infrastructure.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +29,15 @@ public class Config {
     private final UserRepository userRepository;
 
     @Bean
-    public UserServicePort userServicePort(UserPersistencePort userRepository) {
+    @Qualifier("createOwner")
+    public UserServicePort createOwner(UserPersistencePort userRepository) {
         return new CreateOwnerUseCase(userRepository);
+    }
+
+    @Bean
+    @Qualifier("createEmployee")
+    public UserServicePort createEmployee(UserPersistencePort userRepository) {
+        return new CreateEmployeeUseCase(userRepository);
     }
 
     @Bean
@@ -42,14 +46,14 @@ public class Config {
     }
 
     @Bean
-    @Qualifier("create")
+    @Qualifier("createPlate")
     public PlateServicePort createplateusecase(PlatePersistencePort platePersistencePort, RestaurantPersistencePort restaurantPersistencePort) {
         return new CreatePlateUseCase(platePersistencePort, restaurantPersistencePort);
 
     }
 
     @Bean
-    @Qualifier("update")
+    @Qualifier("updatePlate")
     public PlateServicePort updateplateusecase(PlatePersistencePort platePersistencePort, RestaurantPersistencePort restaurantPersistencePort, UserPersistencePort userRepository) {
         return new UpdatePlateUseCase(platePersistencePort, restaurantPersistencePort, userRepository);
 

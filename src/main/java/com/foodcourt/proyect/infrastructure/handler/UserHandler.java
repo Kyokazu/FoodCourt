@@ -5,51 +5,60 @@ import com.foodcourt.proyect.domain.servicePort.UserServicePort;
 import com.foodcourt.proyect.infrastructure.dto.UserDTO;
 import com.foodcourt.proyect.infrastructure.mapper.UserDTOMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
-public class UserHandler implements CrudBase<UserDTO,Long> {
+
+
+public class UserHandler implements CrudBase<UserDTO, Long> {
 
     private final UserDTOMapper userDTOMapper;
-    private final UserServicePort userService;
+    private final UserServicePort createOwnerServicePort;
+    private final UserServicePort createEmployeeServicePort;
 
+    public UserHandler(
+            @Qualifier("createEmployee") UserServicePort createEmployeeServicePort,
+            UserDTOMapper userDTOMapper,
+            @Qualifier("createOwner") UserServicePort createOwnerServicePort) {
+        this.createEmployeeServicePort = createEmployeeServicePort;
+        this.userDTOMapper = userDTOMapper;
+        this.createOwnerServicePort = createOwnerServicePort;
+    }
 
     @Override
     public UserDTO findById(Long aLong) {
-        return userDTOMapper.BToA(userService.findById(aLong));
+        return null;
     }
 
     @Override
     public List<UserDTO> findAll() {
-        return userDTOMapper.BToA(userService.findAll().stream()).collect(Collectors.toList());
+        return null;
     }
 
     @Override
     public UserDTO save(UserDTO entity) {
-        System.out.println("Saving user");
-        return userDTOMapper.BToA(userService.save(userDTOMapper.AToB(entity)));
+        return null;
     }
 
     @Override
     public void update(UserDTO entity) {
-        userService.update(userDTOMapper.AToB(entity));
     }
 
     @Override
     public void delete(UserDTO entity) {
-        userService.delete(userDTOMapper.AToB(entity));
+
     }
 
-    public UserDTO createOwner(UserDTO userDTO){
-       return userDTOMapper.BToA(userService.createOwner(userDTOMapper.AToB(userDTO)));
+    public UserDTO createOwner(UserDTO userDTO) {
+        return userDTOMapper.BToA(createOwnerServicePort.createOwner(userDTOMapper.AToB(userDTO)));
     }
 
-    public UserDTO createEmployee(UserDTO userDTO){
-        return userDTOMapper.BToA(userService.createEmployee(userDTOMapper.AToB(userDTO)));
+    public UserDTO createEmployee(UserDTO userDTO) {
+        return userDTOMapper.BToA(createEmployeeServicePort.createEmployee(userDTOMapper.AToB(userDTO)));
     }
 
 }

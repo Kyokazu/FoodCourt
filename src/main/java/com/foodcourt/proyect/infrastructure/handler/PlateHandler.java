@@ -16,9 +16,9 @@ public class PlateHandler implements CrudBase<PlateDTO, Long> {
     private final PlateServicePort createPlateServicePort;
     private final PlateServicePort updatePlateServicePort;
 
-    public PlateHandler(@Qualifier("create") PlateServicePort createPlateServicePort,
+    public PlateHandler(@Qualifier("createPlate") PlateServicePort createPlateServicePort,
                         PlateDTOMapper plateDTOMapper,
-                        @Qualifier("update") PlateServicePort updatePlateServicePort) {
+                        @Qualifier("updatePlate") PlateServicePort updatePlateServicePort) {
         this.createPlateServicePort = createPlateServicePort;
         this.plateDTOMapper = plateDTOMapper;
         this.updatePlateServicePort = updatePlateServicePort;

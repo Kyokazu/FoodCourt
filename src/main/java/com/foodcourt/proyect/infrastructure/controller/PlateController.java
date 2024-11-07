@@ -22,14 +22,14 @@ public class PlateController implements CrudController<PlateDTO, Long> {
 
     @PreAuthorize("hasRole('OWNER')")
     @PostMapping("/createPlate")
-    @Qualifier("create")
+    @Qualifier("createPlate")
     public ResponseEntity<PlateDTO> createPlate(@RequestBody PlateDTO plate) {
         return new ResponseEntity<>(plateHandler.createPlate(plate), HttpStatus.ACCEPTED);
     }
 
     @PreAuthorize("hasRole('OWNER')")
     @PutMapping("/updatePlate")
-    @Qualifier("update")
+    @Qualifier("updatePlate")
     public ResponseEntity<PlateDTO> updateFields(@RequestBody PlateDTO plate) {
         return new ResponseEntity<>(plateHandler.updatePriceOrDescription(plate), HttpStatus.ACCEPTED);
     }
