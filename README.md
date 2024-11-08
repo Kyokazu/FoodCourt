@@ -1,6 +1,5 @@
 FoodCourt Microservices
 
-
 ## Architecture
 
 Hexagonal Architecture
@@ -11,4 +10,5 @@ Hexagonal Architecture
 - Lombok
 - MapStruct
 - Spring Security
+- Jsonwebtoken
 
