@@ -1,31 +1,27 @@
 package com.foodcourt.proyect.domain.useCase;
 
-import com.foodcourt.proyect.domain.exception.CamposPlatosException;
 import com.foodcourt.proyect.domain.exception.PlatoInexistenteException;
 import com.foodcourt.proyect.domain.exception.PropietarioDePlatoInvalidoException;
-import com.foodcourt.proyect.domain.exception.RestauranteInexistenteException;
 import com.foodcourt.proyect.domain.model.Plate;
 import com.foodcourt.proyect.domain.repositoryPort.PlatePersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
 import com.foodcourt.proyect.domain.servicePort.PlateServicePort;
 import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
-import com.foodcourt.proyect.infrastructure.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
-import java.util.Objects;
 
 @RequiredArgsConstructor
-@Qualifier("updatePlate")
-public class UpdatePlateUseCase implements PlateServicePort {
+@Qualifier("enableUnablePlate")
+public class EnableUnablePlateUseCase implements PlateServicePort {
+
     private final PlatePersistencePort platePersistencePort;
     private final RestaurantPersistencePort restaurantPersistencePort;
     private final UserPersistencePort userPersistencePort;
-
 
     @Override
     public Plate createPlate(Plate plate) {
@@ -34,26 +30,22 @@ public class UpdatePlateUseCase implements PlateServicePort {
 
     @Override
     public Plate updateFields(Plate plate) {
-        if (!validateExistentRestaurant(plate.getRestaurantId())) {
-            throw new RestauranteInexistenteException();
-        }
-        if (!verifyExistingPlate(plate.getId())) {
-            throw new PlatoInexistenteException();
-        }
-
-        if (!verifyUpdateFields(plate)) {
-            throw new CamposPlatosException();
-        }
-        if (!validatePlateOwner(plate.getRestaurantId())) {
-            throw new PropietarioDePlatoInvalidoException();
-        }
-        platePersistencePort.update(plate);
-        return plate;
+        return null;
     }
 
     @Override
     public Plate ableUnablePlate(Plate plate) {
-        return null;
+        if (!validateExistentPlate(plate.getId())) {
+            throw new PlatoInexistenteException();
+        }
+
+        if (!validatePlateOwner(plate.getId())) {
+            throw new PropietarioDePlatoInvalidoException();
+        }
+        Plate oldPlate = platePersistencePort.findById(plate.getId());
+        oldPlate.setActive(!oldPlate.isActive());
+        platePersistencePort.update(oldPlate);
+        return oldPlate;
     }
 
     @Override
@@ -72,26 +64,11 @@ public class UpdatePlateUseCase implements PlateServicePort {
     }
 
     @Override
-    public void update(Plate plate) {
-
+    public void update(Plate entity) {
     }
 
     @Override
     public void delete(Plate entity) {
-
-    }
-
-    private boolean verifyUpdateFields(Plate plate) {
-        return Objects.equals(plate.getDescription(), platePersistencePort.findById(plate.getId()).getDescription())
-                && !Objects.equals(plate.getPrice(), platePersistencePort.findById(plate.getId()).getPrice());
-    }
-
-    private boolean verifyExistingPlate(Long id) {
-        return platePersistencePort.findById(id) != null;
-    }
-
-    private boolean validateExistentRestaurant(Long id) {
-        return restaurantPersistencePort.findById(id) != null;
     }
 
     private boolean validatePlateOwner(Long plateId) {
@@ -101,4 +78,9 @@ public class UpdatePlateUseCase implements PlateServicePort {
         Long userId = userPersistencePort.findIdByMail(user.getMail());
         return restaurantPersistencePort.findOwnerIdByRestaurantId(plate.getRestaurantId()).equals(userId);
     }
+
+    private boolean validateExistentPlate(Long id) {
+        return platePersistencePort.findById(id) != null;
+    }
+
 }

@@ -15,13 +15,16 @@ public class PlateHandler implements CrudBase<PlateDTO, Long> {
     private final PlateDTOMapper plateDTOMapper;
     private final PlateServicePort createPlateServicePort;
     private final PlateServicePort updatePlateServicePort;
+    private final PlateServicePort ableUnablePlateServicePort;
 
     public PlateHandler(@Qualifier("createPlate") PlateServicePort createPlateServicePort,
                         PlateDTOMapper plateDTOMapper,
-                        @Qualifier("updatePlate") PlateServicePort updatePlateServicePort) {
+                        @Qualifier("updatePlate") PlateServicePort updatePlateServicePort,
+                        @Qualifier("enableUnablePlate") PlateServicePort enableUnablePlateServicePort) {
         this.createPlateServicePort = createPlateServicePort;
         this.plateDTOMapper = plateDTOMapper;
         this.updatePlateServicePort = updatePlateServicePort;
+        this.ableUnablePlateServicePort = enableUnablePlateServicePort;
     }
 
     public PlateDTO createPlate(PlateDTO plateDTO) {
@@ -31,6 +34,11 @@ public class PlateHandler implements CrudBase<PlateDTO, Long> {
     public PlateDTO updatePriceOrDescription(PlateDTO plateDTO) {
         return plateDTOMapper.BToA(updatePlateServicePort.updateFields(plateDTOMapper.AToB(plateDTO)));
     }
+
+    public PlateDTO enableUnablePlate(PlateDTO plateDTO) {
+        return plateDTOMapper.BToA(ableUnablePlateServicePort.ableUnablePlate(plateDTOMapper.AToB(plateDTO)));
+    }
+
 
     @Override
     public PlateDTO findById(Long aLong) {

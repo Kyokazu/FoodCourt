@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Qualifier("create")
+@Qualifier("createPlate")
 public class CreatePlateUseCase implements PlateServicePort {
 
     private final PlatePersistencePort platePersistencePort;
@@ -32,6 +32,11 @@ public class CreatePlateUseCase implements PlateServicePort {
 
     @Override
     public Plate updateFields(Plate plate) {
+        return null;
+    }
+
+    @Override
+    public Plate ableUnablePlate(Plate plate) {
         return null;
     }
 

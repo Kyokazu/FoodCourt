@@ -8,7 +8,6 @@ import com.foodcourt.proyect.domain.servicePort.RestaurantServicePort;
 import com.foodcourt.proyect.domain.servicePort.UserServicePort;
 import com.foodcourt.proyect.domain.useCase.*;
 import com.foodcourt.proyect.infrastructure.persistence.repository.UserRepository;
-import com.foodcourt.proyect.infrastructure.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -57,6 +56,12 @@ public class Config {
     public PlateServicePort updateplateusecase(PlatePersistencePort platePersistencePort, RestaurantPersistencePort restaurantPersistencePort, UserPersistencePort userRepository) {
         return new UpdatePlateUseCase(platePersistencePort, restaurantPersistencePort, userRepository);
 
+    }
+
+    @Bean
+    @Qualifier("enableUnablePlate")
+    public PlateServicePort ableEnablePlate(PlatePersistencePort platePersistencePort, RestaurantPersistencePort restaurantPersistencePort, UserPersistencePort userRepository) {
+        return new EnableUnablePlateUseCase(platePersistencePort, restaurantPersistencePort, userRepository);
     }
 
     @Bean

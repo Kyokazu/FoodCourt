@@ -34,6 +34,14 @@ public class PlateController implements CrudController<PlateDTO, Long> {
         return new ResponseEntity<>(plateHandler.updatePriceOrDescription(plate), HttpStatus.ACCEPTED);
     }
 
+    @PreAuthorize("hasRole('OWNER')")
+    @PutMapping("/enableUnablePlate")
+    @Qualifier("enableUnablePlate")
+    public ResponseEntity<PlateDTO> enableUnablePlate(@RequestBody PlateDTO plate) {
+        return new ResponseEntity<PlateDTO>(plateHandler.enableUnablePlate(plate), HttpStatus.ACCEPTED);
+    }
+
+
     @Override
     public ResponseEntity<PlateDTO> findById(Long aLong) {
         return null;
