@@ -21,3 +21,12 @@ Hexagonal Architecture
 - JWT Authorization and Authentication
 - Create Employee
 - Enable/Unable Plate
+- Create Client
+
+
+## Changelog
+
+V1.0.2
+
+Modified mail existence validation 
+Added Qualifier for client usecase
