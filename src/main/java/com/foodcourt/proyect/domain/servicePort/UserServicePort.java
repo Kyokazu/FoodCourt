@@ -9,5 +9,5 @@ public interface UserServicePort extends CrudBase<User, Long> {
 
     public User createEmployee(User user);
 
-
+    public User createClient(User user);
 }

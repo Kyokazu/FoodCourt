@@ -72,5 +72,10 @@ public class UserController implements CrudController<UserDTO, Long> {
         return new ResponseEntity<>(userHandler.createEmployee(userDTO), HttpStatus.ACCEPTED);
     }
 
+    @PostMapping("/createClient")
+    @Qualifier("createClient")
+    public ResponseEntity<UserDTO> createClient(@RequestBody UserDTO userDTO) {
+        return new ResponseEntity<>(userHandler.createClient(userDTO), HttpStatus.ACCEPTED);
+    }
 
 }

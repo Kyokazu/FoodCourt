@@ -19,14 +19,18 @@ public class UserHandler implements CrudBase<UserDTO, Long> {
     private final UserDTOMapper userDTOMapper;
     private final UserServicePort createOwnerServicePort;
     private final UserServicePort createEmployeeServicePort;
+    private final UserServicePort createClientServicePort;
+
 
     public UserHandler(
             @Qualifier("createEmployee") UserServicePort createEmployeeServicePort,
             UserDTOMapper userDTOMapper,
-            @Qualifier("createOwner") UserServicePort createOwnerServicePort) {
+            @Qualifier("createOwner") UserServicePort createOwnerServicePort,
+            @Qualifier("createClient") UserServicePort createClientServicePort) {
         this.createEmployeeServicePort = createEmployeeServicePort;
         this.userDTOMapper = userDTOMapper;
         this.createOwnerServicePort = createOwnerServicePort;
+        this.createClientServicePort = createClientServicePort;
     }
 
     @Override
@@ -61,4 +65,7 @@ public class UserHandler implements CrudBase<UserDTO, Long> {
         return userDTOMapper.BToA(createEmployeeServicePort.createEmployee(userDTOMapper.AToB(userDTO)));
     }
 
+    public UserDTO createClient(UserDTO userDTO) {
+        return userDTOMapper.BToA(createClientServicePort.createClient(userDTOMapper.AToB(userDTO)));
+    }
 }

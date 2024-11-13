@@ -1,6 +1,5 @@
 package com.foodcourt.proyect.domain.useCase;
 
-
 import com.foodcourt.proyect.domain.exception.CelularNoValidoException;
 import com.foodcourt.proyect.domain.exception.CorreoExistenteException;
 import com.foodcourt.proyect.domain.exception.CorreoNoValidoException;
@@ -18,53 +17,19 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
-public class CreateEmployeeUseCase implements UserServicePort {
-
+public class CreateClientUseCase implements UserServicePort {
 
     private final UserPersistencePort userPersistencePort;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    @Override
-    public User createOwner(User user) {
-        return null;
-    }
-
-    @Override
-    public User createEmployee(User user) {
-        validateUser(user);
-        user.setRole(Role.EMPLOYEE);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userPersistencePort.save(user);
-    }
 
     @Override
     public User createClient(User user) {
-        return null;
-    }
-
-    @Override
-    public User findById(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public List<User> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public User save(User entity) {
-        return null;
-    }
-
-    @Override
-    public void update(User entity) {
-
-    }
-
-    @Override
-    public void delete(User entity) {
-
+        validateUser(user);
+        user.setRole(Role.CLIENT);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userPersistencePort.save(user);
+        return user;
     }
 
     private void validateUser(User usuario) {
@@ -109,4 +74,39 @@ public class CreateEmployeeUseCase implements UserServicePort {
         return true;
     }
 
+    @Override
+    public User createOwner(User user) {
+        return null;
+    }
+
+    @Override
+    public User createEmployee(User user) {
+        return null;
+    }
+
+
+    @Override
+    public User findById(Long aLong) {
+        return null;
+    }
+
+    @Override
+    public List<User> findAll() {
+        return List.of();
+    }
+
+    @Override
+    public User save(User entity) {
+        return null;
+    }
+
+    @Override
+    public void update(User entity) {
+
+    }
+
+    @Override
+    public void delete(User entity) {
+
+    }
 }
