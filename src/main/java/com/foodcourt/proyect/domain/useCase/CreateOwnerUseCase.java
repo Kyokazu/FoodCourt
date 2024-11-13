@@ -1,6 +1,7 @@
 package com.foodcourt.proyect.domain.useCase;
 
 import com.foodcourt.proyect.domain.exception.CelularNoValidoException;
+import com.foodcourt.proyect.domain.exception.CorreoExistenteException;
 import com.foodcourt.proyect.domain.exception.CorreoNoValidoException;
 import com.foodcourt.proyect.domain.exception.MenorDeEdadException;
 import com.foodcourt.proyect.domain.model.Role;
@@ -64,6 +65,11 @@ public class CreateOwnerUseCase implements UserServicePort {
         return null;
     }
 
+    @Override
+    public User createClient(User user) {
+        return null;
+    }
+
     private void validateUser(User usuario) {
         if (!correoValido(usuario.getMail())) {
             throw new CorreoNoValidoException();
@@ -75,6 +81,9 @@ public class CreateOwnerUseCase implements UserServicePort {
 
         if (!edadValido(usuario.getBirthday())) {
             throw new MenorDeEdadException();
+        }
+        if (existentMail(usuario.getMail())) {
+            throw new CorreoExistenteException();
         }
     }
 
@@ -92,6 +101,15 @@ public class CreateOwnerUseCase implements UserServicePort {
 
     private boolean edadValido(LocalDate birthDate) {
         return Period.between(birthDate, LocalDate.now()).getYears() >= 18;
+    }
+
+    private boolean existentMail(String mail) {
+        try {
+            userRepository.findIdByMail(mail);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
 

@@ -40,6 +40,12 @@ public class Config {
     }
 
     @Bean
+    @Qualifier("createClient")
+    public UserServicePort createClient(UserPersistencePort userRepository) {
+        return new CreateClientUseCase(userRepository);
+    }
+
+    @Bean
     public RestaurantServicePort restaurantServicePort(RestaurantPersistencePort restaurantPersistence, UserPersistencePort userRepository) {
         return new CreateRestaurantUseCase(restaurantPersistence, userRepository);
     }
