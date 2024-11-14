@@ -7,6 +7,7 @@ import com.foodcourt.proyect.domain.servicePort.PlateServicePort;
 import com.foodcourt.proyect.domain.servicePort.RestaurantServicePort;
 import com.foodcourt.proyect.domain.servicePort.UserServicePort;
 import com.foodcourt.proyect.domain.useCase.*;
+import com.foodcourt.proyect.infrastructure.mapper.PlateDTOMapper;
 import com.foodcourt.proyect.infrastructure.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -46,20 +47,27 @@ public class Config {
     }
 
     @Bean
-    public RestaurantServicePort restaurantServicePort(RestaurantPersistencePort restaurantPersistence, UserPersistencePort userRepository) {
+    @Qualifier("listRestaurant")
+    public RestaurantServicePort restaurantServicePort(RestaurantPersistencePort restaurantPersistence) {
+        return new ListRestaurantUseCase(restaurantPersistence);
+    }
+
+    @Qualifier("createRestaurant")
+    @Bean
+    public RestaurantServicePort listRestaurantUseCase(RestaurantPersistencePort restaurantPersistence, UserPersistencePort userRepository) {
         return new CreateRestaurantUseCase(restaurantPersistence, userRepository);
     }
 
     @Bean
     @Qualifier("createPlate")
-    public PlateServicePort createplateusecase(PlatePersistencePort platePersistencePort, RestaurantPersistencePort restaurantPersistencePort) {
+    public PlateServicePort createPlateUseCase(PlatePersistencePort platePersistencePort, RestaurantPersistencePort restaurantPersistencePort) {
         return new CreatePlateUseCase(platePersistencePort, restaurantPersistencePort);
 
     }
 
     @Bean
     @Qualifier("updatePlate")
-    public PlateServicePort updateplateusecase(PlatePersistencePort platePersistencePort, RestaurantPersistencePort restaurantPersistencePort, UserPersistencePort userRepository) {
+    public PlateServicePort updatePlateUseCase(PlatePersistencePort platePersistencePort, RestaurantPersistencePort restaurantPersistencePort, UserPersistencePort userRepository) {
         return new UpdatePlateUseCase(platePersistencePort, restaurantPersistencePort, userRepository);
 
     }

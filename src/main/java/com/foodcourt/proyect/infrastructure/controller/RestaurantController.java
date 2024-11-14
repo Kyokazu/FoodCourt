@@ -1,6 +1,8 @@
 package com.foodcourt.proyect.infrastructure.controller;
 
 import com.foodcourt.proyect.infrastructure.comun.CrudController;
+import com.foodcourt.proyect.infrastructure.dto.ListRestaurantDTO;
+import com.foodcourt.proyect.infrastructure.dto.PageDTO;
 import com.foodcourt.proyect.infrastructure.dto.RestaurantDTO;
 import com.foodcourt.proyect.infrastructure.handler.RestaurantHandler;
 import lombok.RequiredArgsConstructor;
@@ -50,5 +52,11 @@ public class RestaurantController implements CrudController<RestaurantDTO, Long>
     @PostMapping("/createRestaurant")
     public ResponseEntity<RestaurantDTO> createOwner(@RequestBody RestaurantDTO restaurantDTO) {
         return new ResponseEntity<>(restaurantHandler.createRestaurant(restaurantDTO), HttpStatus.ACCEPTED);
+    }
+
+    @PreAuthorize("hasRole('CLIENT')")
+    @PostMapping("/listRestaurant")
+    public ResponseEntity<List<ListRestaurantDTO>> listRestaurants(@RequestBody PageDTO page) {
+        return new ResponseEntity<List<ListRestaurantDTO>>(restaurantHandler.listRestaurant(page.getPage()), HttpStatus.ACCEPTED);
     }
 }
