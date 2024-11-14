@@ -12,5 +12,5 @@ public interface RestaurantServicePort extends CrudBase<Restaurant, Long> {
 
     public Restaurant createRestaurant(Restaurant restaurant);
 
-    List<ListRestaurantDTO> getAllRestaurants(int cantidad);
+    List<ListRestaurantDTO> getAllRestaurants(long cantidad);
 }

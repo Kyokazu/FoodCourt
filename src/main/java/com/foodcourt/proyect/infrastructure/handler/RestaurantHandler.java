@@ -59,7 +59,7 @@ public class RestaurantHandler implements CrudBase<RestaurantDTO, Long> {
         return restaurantDTOMapper.BToA(restaurantServicePort.createRestaurant(restaurantDTOMapper.AToB(restaurantDTO)));
     }
 
-    public List<ListRestaurantDTO> listRestaurant(int cantidad) {
+    public List<ListRestaurantDTO> listRestaurant(long cantidad) {
         return listRestaurantServicePort.getAllRestaurants(cantidad);
     }
 

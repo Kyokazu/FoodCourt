@@ -3,6 +3,8 @@ package com.foodcourt.proyect.infrastructure.handler;
 import com.foodcourt.proyect.domain.comun.CrudBase;
 import com.foodcourt.proyect.domain.servicePort.PlateServicePort;
 import com.foodcourt.proyect.domain.servicePort.RestaurantServicePort;
+import com.foodcourt.proyect.infrastructure.dto.ListPlateDTO;
+import com.foodcourt.proyect.infrastructure.dto.PageDTO;
 import com.foodcourt.proyect.infrastructure.dto.PlateDTO;
 import com.foodcourt.proyect.infrastructure.mapper.PlateDTOMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,15 +19,18 @@ public class PlateHandler implements CrudBase<PlateDTO, Long> {
     private final PlateServicePort createPlateServicePort;
     private final PlateServicePort updatePlateServicePort;
     private final PlateServicePort ableUnablePlateServicePort;
+    private final PlateServicePort listPlateServicePort;
 
     public PlateHandler(@Qualifier("createPlate") PlateServicePort createPlateServicePort,
                         PlateDTOMapper plateDTOMapper,
                         @Qualifier("updatePlate") PlateServicePort updatePlateServicePort,
-                        @Qualifier("enableUnablePlate") PlateServicePort enableUnablePlateServicePort) {
+                        @Qualifier("enableUnablePlate") PlateServicePort enableUnablePlateServicePort,
+                        @Qualifier("listPlate") PlateServicePort listPlateServicePort) {
         this.createPlateServicePort = createPlateServicePort;
         this.plateDTOMapper = plateDTOMapper;
         this.updatePlateServicePort = updatePlateServicePort;
         this.ableUnablePlateServicePort = enableUnablePlateServicePort;
+        this.listPlateServicePort = listPlateServicePort;
     }
 
     public PlateDTO createPlate(PlateDTO plateDTO) {
@@ -40,6 +45,9 @@ public class PlateHandler implements CrudBase<PlateDTO, Long> {
         return plateDTOMapper.BToA(ableUnablePlateServicePort.ableUnablePlate(plateDTOMapper.AToB(plateDTO)));
     }
 
+    public List<ListPlateDTO> listPlate(PageDTO pageDTO) {
+        return listPlateServicePort.listPlate(pageDTO);
+    }
 
     @Override
     public PlateDTO findById(Long aLong) {
@@ -64,4 +72,6 @@ public class PlateHandler implements CrudBase<PlateDTO, Long> {
     public void delete(PlateDTO entity) {
 
     }
+
+
 }

@@ -7,6 +7,8 @@ import com.foodcourt.proyect.domain.repositoryPort.PlatePersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
 import com.foodcourt.proyect.domain.servicePort.PlateServicePort;
+import com.foodcourt.proyect.infrastructure.dto.ListPlateDTO;
+import com.foodcourt.proyect.infrastructure.dto.PageDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -38,6 +40,11 @@ public class CreatePlateUseCase implements PlateServicePort {
     @Override
     public Plate ableUnablePlate(Plate plate) {
         return null;
+    }
+
+    @Override
+    public List<ListPlateDTO> listPlate(PageDTO pageDTO) {
+        return List.of();
     }
 
     @Override

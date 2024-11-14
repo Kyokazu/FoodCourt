@@ -7,5 +7,7 @@ import java.util.List;
 @Data
 public class PageDTO {
 
-    int page;
+    private long page;
+    private long restaurantId;
+    private String category;
 }
