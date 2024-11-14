@@ -2,6 +2,8 @@ package com.foodcourt.proyect.infrastructure.controller;
 
 
 import com.foodcourt.proyect.infrastructure.comun.CrudController;
+import com.foodcourt.proyect.infrastructure.dto.ListPlateDTO;
+import com.foodcourt.proyect.infrastructure.dto.PageDTO;
 import com.foodcourt.proyect.infrastructure.dto.PlateDTO;
 import com.foodcourt.proyect.infrastructure.handler.PlateHandler;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,13 @@ public class PlateController implements CrudController<PlateDTO, Long> {
     @Qualifier("enableUnablePlate")
     public ResponseEntity<PlateDTO> enableUnablePlate(@RequestBody PlateDTO plate) {
         return new ResponseEntity<PlateDTO>(plateHandler.enableUnablePlate(plate), HttpStatus.ACCEPTED);
+    }
+
+    @PreAuthorize("hasRole('CLIENT')")
+    @PostMapping("/listPlate")
+    @Qualifier("/listPlate")
+    public ResponseEntity<List<ListPlateDTO>> listPlate(@RequestBody PageDTO pageDTO) {
+        return new ResponseEntity<List<ListPlateDTO>>(plateHandler.listPlate(pageDTO), HttpStatus.ACCEPTED);
     }
 
 

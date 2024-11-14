@@ -20,7 +20,7 @@ public class ListRestaurantUseCase implements RestaurantServicePort {
         return null;
     }
 
-    public List<ListRestaurantDTO> getAllRestaurants(int cantidad) {
+    public List<ListRestaurantDTO> getAllRestaurants(long cantidad) {
         List<Restaurant> restaurantes = restaurantPersistencePort.findAll();
         return restaurantes.stream().sorted(
                         (r1, r2) ->

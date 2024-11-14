@@ -9,6 +9,8 @@ import com.foodcourt.proyect.domain.repositoryPort.PlatePersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
 import com.foodcourt.proyect.domain.servicePort.PlateServicePort;
+import com.foodcourt.proyect.infrastructure.dto.ListPlateDTO;
+import com.foodcourt.proyect.infrastructure.dto.PageDTO;
 import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
 import com.foodcourt.proyect.infrastructure.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +56,11 @@ public class UpdatePlateUseCase implements PlateServicePort {
     @Override
     public Plate ableUnablePlate(Plate plate) {
         return null;
+    }
+
+    @Override
+    public List<ListPlateDTO> listPlate(PageDTO pageDTO) {
+        return List.of();
     }
 
     @Override

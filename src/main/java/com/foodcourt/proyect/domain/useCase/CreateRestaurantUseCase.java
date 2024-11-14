@@ -30,7 +30,7 @@ public class CreateRestaurantUseCase implements RestaurantServicePort {
     }
 
     @Override
-    public List<ListRestaurantDTO> getAllRestaurants(int cantidad) {
+    public List<ListRestaurantDTO> getAllRestaurants(long cantidad) {
         return List.of();
     }
 

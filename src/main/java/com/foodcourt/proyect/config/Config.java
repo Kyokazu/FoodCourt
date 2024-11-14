@@ -73,6 +73,12 @@ public class Config {
     }
 
     @Bean
+    @Qualifier("listPlate")
+    public PlateServicePort listPlateUseCase(PlatePersistencePort platePersistencePort, RestaurantPersistencePort restaurantPersistencePort) {
+        return new ListPlateUseCase(platePersistencePort, restaurantPersistencePort);
+    }
+
+    @Bean
     @Qualifier("enableUnablePlate")
     public PlateServicePort ableEnablePlate(PlatePersistencePort platePersistencePort, RestaurantPersistencePort restaurantPersistencePort, UserPersistencePort userRepository) {
         return new EnableUnablePlateUseCase(platePersistencePort, restaurantPersistencePort, userRepository);
