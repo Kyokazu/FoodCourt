@@ -9,6 +9,7 @@ import com.foodcourt.proyect.domain.model.User;
 import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
 import com.foodcourt.proyect.domain.servicePort.UserServicePort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
+@Qualifier("createClient")
 public class CreateClientUseCase implements UserServicePort {
 
     private final UserPersistencePort userPersistencePort;

@@ -47,4 +47,3 @@ public class RestaurantAdapterRepository implements RestaurantPersistencePort {
         return restaurantRepository.findById(restaurantId).get().getOwnerId();
     }
 }
-

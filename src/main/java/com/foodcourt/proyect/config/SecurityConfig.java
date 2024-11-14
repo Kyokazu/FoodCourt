@@ -30,7 +30,11 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests(authRequest ->
                         authRequest
-                                .antMatchers("/user/login", "/user/createClient").permitAll()
+                                .antMatchers("/user/login"
+                                        , "/user/createClient"
+                                        , "/swagger-ui/**"
+                                        , "/v2/api-docs"
+                                        , "/swagger-resources/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManager ->
