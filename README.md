@@ -23,16 +23,22 @@ Hexagonal Architecture
 - Enable/Unable Plate
 - Create Client
 - List Restaurant
+- List Plate
 
 
 ## Changelog
 
-V1.0.2
+v1.0.2
 
-- Modified mail existence validation 
-- Added Qualifier for client usecase
+- Modified mail existence validation.
+- Added Qualifier for client use case.
 
-V.1.0.3
+v1.0.3
 
-- Modified controller for adding list restaurant route
-- Added Quaifier for list restaurant use case.
+- Modified restaurant controller for adding listing restaurants route.
+- Added Qualifier for list restaurant use case.
+
+V1.0.4
+
+- Modified plate controller for adding listing plates route.
+- Added Qualifier for list plate use case.
