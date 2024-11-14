@@ -10,7 +10,7 @@ Hexagonal Architecture
 - Lombok
 - MapStruct
 - Spring Security
-- Jsonwebtoken
+- JWT
 
 ## Current Functionalities
 
@@ -22,11 +22,17 @@ Hexagonal Architecture
 - Create Employee
 - Enable/Unable Plate
 - Create Client
+- List Restaurant
 
 
 ## Changelog
 
 V1.0.2
 
-Modified mail existence validation 
-Added Qualifier for client usecase
+- Modified mail existence validation 
+- Added Qualifier for client usecase
+
+V.1.0.3
+
+- Modified controller for adding list restaurant route
+- Added Quaifier for list restaurant use case.
