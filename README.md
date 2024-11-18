@@ -24,6 +24,7 @@ Hexagonal Architecture
 - Create Client
 - List Restaurant
 - List Plate
+- Create Order
 
 
 ## Changelog
@@ -38,7 +39,12 @@ v1.0.3
 - Modified restaurant controller for adding listing restaurants route.
 - Added Qualifier for list restaurant use case.
 
-V1.0.4
+v1.0.4
 
 - Modified plate controller for adding listing plates route.
 - Added Qualifier for list plate use case.
+
+v1.0.5
+
+-Added Order management (model,DTO, entity, handler, repository, service, controller, adapter, UseCase)
+-Added Qualifier for creating order.
