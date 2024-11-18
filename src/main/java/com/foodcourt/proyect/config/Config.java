@@ -1,8 +1,10 @@
 package com.foodcourt.proyect.config;
 
+import com.foodcourt.proyect.domain.repositoryPort.OrderPersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.PlatePersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
+import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
 import com.foodcourt.proyect.domain.servicePort.PlateServicePort;
 import com.foodcourt.proyect.domain.servicePort.RestaurantServicePort;
 import com.foodcourt.proyect.domain.servicePort.UserServicePort;
@@ -80,8 +82,21 @@ public class Config {
 
     @Bean
     @Qualifier("enableUnablePlate")
-    public PlateServicePort ableEnablePlate(PlatePersistencePort platePersistencePort, RestaurantPersistencePort restaurantPersistencePort, UserPersistencePort userRepository) {
+    public PlateServicePort ableEnablePlate(
+            PlatePersistencePort platePersistencePort,
+            RestaurantPersistencePort restaurantPersistencePort,
+            UserPersistencePort userRepository) {
         return new EnableUnablePlateUseCase(platePersistencePort, restaurantPersistencePort, userRepository);
+    }
+
+    @Bean
+    @Qualifier("createOrder")
+    public OrderServicePort createOrder(
+            OrderPersistencePort orderPersistencePort,
+            PlatePersistencePort platePersistencePort,
+            RestaurantPersistencePort restaurantPersistencePort,
+            UserPersistencePort userRepository) {
+        return new CreateOrderUseCase(orderPersistencePort, platePersistencePort, restaurantPersistencePort, userRepository);
     }
 
     @Bean
