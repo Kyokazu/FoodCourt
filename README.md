@@ -25,7 +25,7 @@ Hexagonal Architecture
 - List Restaurant
 - List Plate
 - Create Order
-
+- List Order
 
 ## Changelog
 
@@ -48,3 +48,9 @@ v1.0.5
 
 - Added Order management (model,DTO, entity, handler, repository, service, controller, adapter, UseCase).
 - Added Qualifier for creating order.
+
+v1.0.6
+
+- Added order listing, filtering by status and number of records to show
+- Added Qualifier for listing order
+- Modified employee creation for saving employee's id on restaurant data.
