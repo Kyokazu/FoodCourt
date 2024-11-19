@@ -54,3 +54,8 @@ v1.0.6
 - Added order listing, filtering by status and number of records to show
 - Added Qualifier for listing order
 - Modified employee creation for saving employee's id on restaurant data.
+
+v1.0.7
+
+- Added order assignment to an employee from the restaurant which took the order.
+- Added Qualifier for assign order

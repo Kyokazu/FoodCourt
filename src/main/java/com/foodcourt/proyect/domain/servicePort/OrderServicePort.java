@@ -11,4 +11,6 @@ public interface OrderServicePort extends CrudBase<Order, Long> {
     public Order createOrder(Order order);
 
     public List<OrderDTO> listOrders(Long orders, String status);
+
+    public Order assignOrder(Long employeeId);
 }

@@ -17,13 +17,16 @@ public class OrderHandler implements CrudBase<OrderDTO, Long> {
     private final OrderDTOMapper orderDTOMapper;
     private final OrderServicePort createOrderServicePort;
     private final OrderServicePort listOrdersServicePort;
+    private final OrderServicePort assignOrderServicePort;
 
     public OrderHandler(OrderDTOMapper orderDTOMapper,
                         @Qualifier("createOrder") OrderServicePort createOrderServicePort,
-                        @Qualifier("listOrders") OrderServicePort listOrdersServicePort) {
+                        @Qualifier("listOrders") OrderServicePort listOrdersServicePort,
+                        @Qualifier("assignOrder") OrderServicePort assignOrderServicePort) {
         this.orderDTOMapper = orderDTOMapper;
         this.createOrderServicePort = createOrderServicePort;
         this.listOrdersServicePort = listOrdersServicePort;
+        this.assignOrderServicePort = assignOrderServicePort;
     }
 
     public OrderDTO createOrder(OrderDTO orderDTO) {
@@ -34,6 +37,10 @@ public class OrderHandler implements CrudBase<OrderDTO, Long> {
     public List<OrderDTO> listOrders(OrderListDTO orderList) {
         return listOrdersServicePort.listOrders(orderList.getSize(), orderList.getStatus());
 
+    }
+
+    public OrderDTO assignOrder(OrderDTO orderDTO) {
+        return orderDTOMapper.BToA(assignOrderServicePort.assignOrder(orderDTO.getId()));
     }
 
 

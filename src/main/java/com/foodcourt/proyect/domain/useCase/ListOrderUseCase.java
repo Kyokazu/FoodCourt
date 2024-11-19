@@ -34,10 +34,17 @@ public class ListOrderUseCase implements OrderServicePort {
                 .stream()
                 .filter(order -> order.getStatus().toString().equals(status) && order.getRestaurantId().equals(owner))
                 .limit(size)
-                .map(o -> new OrderDTO(o.getId(), o.getRestaurantId(), o.getClientId(), o.getPlateList(), o.getPlateQuantity(), o.getStatus()))
+                .map(o -> new OrderDTO(o.getId(), o.getRestaurantId(),
+                        o.getClientId(), o.getPlateList(), o.getPlateQuantity(),
+                        o.getStatus(), o.getAssignedEmployee()))
                 .collect(Collectors.toList());
 
         return orders;
+    }
+
+    @Override
+    public Order assignOrder(Long employeeId) {
+        return null;
     }
 
 

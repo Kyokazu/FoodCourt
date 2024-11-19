@@ -29,4 +29,5 @@ public class OrderEntity {
     private String plateQuantity;
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+    private Long assignedEmployee;
 }
