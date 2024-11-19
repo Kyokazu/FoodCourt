@@ -108,6 +108,14 @@ public class Config {
     }
 
     @Bean
+    @Qualifier("assignOrder")
+    public OrderServicePort assignOrder(
+            OrderPersistencePort orderPersistencePort,
+            RestaurantPersistencePort restaurantPersistencePort) {
+        return new AssignOrder(orderPersistencePort, restaurantPersistencePort);
+    }
+
+    @Bean
     public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }

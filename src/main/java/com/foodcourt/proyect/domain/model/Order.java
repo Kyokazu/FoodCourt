@@ -13,5 +13,6 @@ public class Order {
     private String plateList;
     private String plateQuantity;
     private OrderStatus status;
+    private Long assignedEmployee;
 
 }

@@ -20,7 +20,7 @@ public class OrderAdapterRepository implements OrderPersistencePort {
 
     @Override
     public Order findById(Long aLong) {
-        return null;
+        return orderEntityMapper.AToB(orderRepository.findById(aLong).get());
     }
 
     @Override
@@ -35,7 +35,7 @@ public class OrderAdapterRepository implements OrderPersistencePort {
 
     @Override
     public void update(Order entity) {
-
+        orderRepository.save(orderEntityMapper.BToA(entity));
     }
 
     @Override

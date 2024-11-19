@@ -14,14 +14,17 @@ public class OrderDTO {
     private String plateList;
     private String plateQuantity;
     private OrderStatus status;
+    private Long assignedEmployee;
 
-    public OrderDTO(Long id, Long restaurantId, Long clientId, String plateList, String plateQuantity, OrderStatus status) {
+    public OrderDTO(Long id, Long restaurantId, Long clientId, String plateList, String plateQuantity, OrderStatus status, Long assignedEmployee) {
         this.id = id;
         this.clientId = clientId;
         this.plateList = plateList;
         this.plateQuantity = plateQuantity;
         this.restaurantId = restaurantId;
         this.status = status;
+        this.assignedEmployee = assignedEmployee;
+
     }
 
     public OrderDTO() {
