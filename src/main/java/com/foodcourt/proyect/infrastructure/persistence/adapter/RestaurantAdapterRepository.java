@@ -3,6 +3,7 @@ package com.foodcourt.proyect.infrastructure.persistence.adapter;
 import com.foodcourt.proyect.domain.model.Restaurant;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
 import com.foodcourt.proyect.infrastructure.mapper.RestaurantEntityMapper;
+import com.foodcourt.proyect.infrastructure.persistence.entity.RestaurantEntity;
 import com.foodcourt.proyect.infrastructure.persistence.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -46,4 +47,16 @@ public class RestaurantAdapterRepository implements RestaurantPersistencePort {
     public Long findOwnerIdByRestaurantId(Long restaurantId) {
         return restaurantRepository.findById(restaurantId).get().getOwnerId();
     }
+
+    @Override
+    public Restaurant findRestaurantByOwnerId(Long ownerId) {
+        List<RestaurantEntity> restaurantes = (restaurantRepository.findAll().stream()
+                .filter(r -> r.getOwnerId().equals(ownerId))
+                .collect(Collectors.toList()));
+        if (!restaurantes.isEmpty()) {
+            return restaurantEntityMapper.AToB(restaurantes.get(0));
+        }
+        return null;
+    }
+
 }

@@ -36,5 +36,6 @@ public class RestaurantEntity {
     private String urlLogo;
     @NotNull(message = "OwnerId field must not be null")
     private Long ownerId;
+    private String employees;
 
 }

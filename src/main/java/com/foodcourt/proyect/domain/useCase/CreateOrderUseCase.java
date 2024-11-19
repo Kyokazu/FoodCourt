@@ -11,6 +11,7 @@ import com.foodcourt.proyect.domain.repositoryPort.PlatePersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
 import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
+import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
 import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -18,8 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class CreateOrderUseCase implements OrderServicePort {
@@ -37,6 +36,11 @@ public class CreateOrderUseCase implements OrderServicePort {
         order.setStatus(OrderStatus.PENDING);
         orderPersistencePort.save(order);
         return order;
+    }
+
+    @Override
+    public List<OrderDTO> listOrders(Long orders, String status) {
+        return null;
     }
 
     private void validateOrder(Order order) {

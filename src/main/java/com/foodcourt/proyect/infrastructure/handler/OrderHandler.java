@@ -3,25 +3,37 @@ package com.foodcourt.proyect.infrastructure.handler;
 import com.foodcourt.proyect.domain.comun.CrudBase;
 import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
 import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
+import com.foodcourt.proyect.infrastructure.dto.OrderListDTO;
 import com.foodcourt.proyect.infrastructure.mapper.OrderDTOMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderHandler implements CrudBase<OrderDTO, Long> {
 
     private final OrderDTOMapper orderDTOMapper;
-    private final OrderServicePort orderServicePort;
+    private final OrderServicePort createOrderServicePort;
+    private final OrderServicePort listOrdersServicePort;
 
-    public OrderHandler(OrderDTOMapper orderDTOMapper, OrderServicePort orderServicePort) {
+    public OrderHandler(OrderDTOMapper orderDTOMapper,
+                        @Qualifier("createOrder") OrderServicePort createOrderServicePort,
+                        @Qualifier("listOrders") OrderServicePort listOrdersServicePort) {
         this.orderDTOMapper = orderDTOMapper;
-        this.orderServicePort = orderServicePort;
+        this.createOrderServicePort = createOrderServicePort;
+        this.listOrdersServicePort = listOrdersServicePort;
     }
 
     public OrderDTO createOrder(OrderDTO orderDTO) {
 
-        return orderDTOMapper.BToA(orderServicePort.createOrder(orderDTOMapper.AToB(orderDTO)));
+        return orderDTOMapper.BToA(createOrderServicePort.createOrder(orderDTOMapper.AToB(orderDTO)));
+    }
+
+    public List<OrderDTO> listOrders(OrderListDTO orderList) {
+        return listOrdersServicePort.listOrders(orderList.getSize(), orderList.getStatus());
+
     }
 
 

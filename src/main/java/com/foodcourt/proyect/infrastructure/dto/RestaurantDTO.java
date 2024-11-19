@@ -11,4 +11,5 @@ public class RestaurantDTO {
     private String phone;
     private String urlLogo;
     private Long ownerId;
+    private String employees;
 }

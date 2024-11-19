@@ -5,12 +5,17 @@ import com.foodcourt.proyect.domain.exception.CelularNoValidoException;
 import com.foodcourt.proyect.domain.exception.CorreoExistenteException;
 import com.foodcourt.proyect.domain.exception.CorreoNoValidoException;
 import com.foodcourt.proyect.domain.exception.MenorDeEdadException;
+import com.foodcourt.proyect.domain.model.Restaurant;
 import com.foodcourt.proyect.domain.model.Role;
 import com.foodcourt.proyect.domain.model.User;
+import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
 import com.foodcourt.proyect.domain.servicePort.UserServicePort;
+import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
@@ -24,6 +29,7 @@ public class CreateEmployeeUseCase implements UserServicePort {
 
 
     private final UserPersistencePort userPersistencePort;
+    private final RestaurantPersistencePort restaurantPersistencePort;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
@@ -36,7 +42,9 @@ public class CreateEmployeeUseCase implements UserServicePort {
         validateUser(user);
         user.setRole(Role.EMPLOYEE);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userPersistencePort.save(user);
+        User savedUser = userPersistencePort.save(user);
+        restaurantPersistencePort.update(searchRestaurant(user));
+        return savedUser;
     }
 
     @Override
@@ -85,6 +93,21 @@ public class CreateEmployeeUseCase implements UserServicePort {
             throw new CorreoExistenteException();
         }
     }
+
+    private Restaurant searchRestaurant(User user) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity userFound = (UserEntity) authentication.getPrincipal();
+        Restaurant restaurant = restaurantPersistencePort.findRestaurantByOwnerId(userFound.getId());
+        User usuario = userPersistencePort.findById(userPersistencePort.findIdByMail(user.getMail()));
+        String employees = restaurant.getEmployees();
+        if (employees == null || employees.isEmpty()) {
+            restaurant.setEmployees(usuario.getId().toString());
+        } else {
+            restaurant.setEmployees(restaurant.getEmployees() + "," + usuario.getId().toString());
+        }
+        return restaurant;
+    }
+
 
     private boolean correoValido(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
