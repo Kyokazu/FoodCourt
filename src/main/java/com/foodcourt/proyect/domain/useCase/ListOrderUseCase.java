@@ -1,0 +1,81 @@
+package com.foodcourt.proyect.domain.useCase;
+
+import com.foodcourt.proyect.domain.model.Order;
+import com.foodcourt.proyect.domain.model.Restaurant;
+import com.foodcourt.proyect.domain.model.User;
+import com.foodcourt.proyect.domain.repositoryPort.OrderPersistencePort;
+import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
+import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
+import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
+import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
+import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RequiredArgsConstructor
+public class ListOrderUseCase implements OrderServicePort {
+
+    private final OrderPersistencePort orderPersistencePort;
+    private final RestaurantPersistencePort restaurantPersistencePort;
+
+    @Override
+    public Order createOrder(Order order) {
+        return null;
+    }
+
+    @Override
+    public List<OrderDTO> listOrders(Long size, String status) {
+        Long owner = getRestaurantId();
+        List<OrderDTO> orders = orderPersistencePort.findAll()
+                .stream()
+                .filter(order -> order.getStatus().toString().equals(status) && order.getRestaurantId().equals(owner))
+                .limit(size)
+                .map(o -> new OrderDTO(o.getId(), o.getRestaurantId(), o.getClientId(), o.getPlateList(), o.getPlateQuantity(), o.getStatus()))
+                .collect(Collectors.toList());
+
+        return orders;
+    }
+
+
+    private Long getRestaurantId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserEntity userFound = (UserEntity) authentication.getPrincipal();
+        String employeeId = userFound.getId().toString();
+        List<Restaurant> rest = restaurantPersistencePort.findAll()
+                .stream()
+                .filter(restaurant -> restaurant.getEmployees() != null)
+                .filter(restaurant -> restaurant.getEmployees().contains(employeeId))
+                .collect(Collectors.toList());
+
+        return rest.get(0).getId();
+    }
+
+    @Override
+    public Order findById(Long aLong) {
+        return null;
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return orderPersistencePort.findAll();
+    }
+
+    @Override
+    public Order save(Order entity) {
+        return null;
+    }
+
+    @Override
+    public void update(Order entity) {
+
+    }
+
+    @Override
+    public void delete(Order entity) {
+
+    }
+}

@@ -15,4 +15,15 @@ public class OrderDTO {
     private String plateQuantity;
     private OrderStatus status;
 
+    public OrderDTO(Long id, Long restaurantId, Long clientId, String plateList, String plateQuantity, OrderStatus status) {
+        this.id = id;
+        this.clientId = clientId;
+        this.plateList = plateList;
+        this.plateQuantity = plateQuantity;
+        this.restaurantId = restaurantId;
+        this.status = status;
+    }
+
+    public OrderDTO() {
+    }
 }

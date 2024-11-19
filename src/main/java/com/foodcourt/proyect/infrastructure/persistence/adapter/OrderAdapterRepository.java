@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class OrderAdapterRepository implements OrderPersistencePort {
 
     @Override
     public List<Order> findAll() {
-        return List.of();
+        return orderEntityMapper.AToB(orderRepository.findAll().stream()).collect(Collectors.toList());
     }
 
     @Override

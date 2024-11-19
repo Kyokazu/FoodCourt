@@ -38,8 +38,8 @@ public class Config {
 
     @Bean
     @Qualifier("createEmployee")
-    public UserServicePort createEmployee(UserPersistencePort userRepository) {
-        return new CreateEmployeeUseCase(userRepository);
+    public UserServicePort createEmployee(UserPersistencePort userRepository, RestaurantPersistencePort restaurantPersistencePort) {
+        return new CreateEmployeeUseCase(userRepository, restaurantPersistencePort);
     }
 
     @Bean
@@ -97,6 +97,14 @@ public class Config {
             RestaurantPersistencePort restaurantPersistencePort,
             UserPersistencePort userRepository) {
         return new CreateOrderUseCase(orderPersistencePort, platePersistencePort, restaurantPersistencePort, userRepository);
+    }
+
+    @Bean
+    @Qualifier("listOrders")
+    public OrderServicePort listOrders(
+            OrderPersistencePort orderPersistencePort,
+            RestaurantPersistencePort restaurantPersistencePort) {
+        return new ListOrderUseCase(orderPersistencePort, restaurantPersistencePort);
     }
 
     @Bean

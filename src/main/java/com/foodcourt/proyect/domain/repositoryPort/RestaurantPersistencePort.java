@@ -12,4 +12,6 @@ public interface RestaurantPersistencePort extends CrudBase<Restaurant, Long> {
 
     Long findOwnerIdByRestaurantId(Long restaurantId);
 
+    Restaurant findRestaurantByOwnerId(Long ownerId);
+
 }

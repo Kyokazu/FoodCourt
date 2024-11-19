@@ -2,6 +2,7 @@ package com.foodcourt.proyect.infrastructure.controller;
 
 
 import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
+import com.foodcourt.proyect.infrastructure.dto.OrderListDTO;
 import com.foodcourt.proyect.infrastructure.handler.OrderHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,4 +30,10 @@ public class OrderController {
         return new ResponseEntity<>(orderHandler.createOrder(order), HttpStatus.ACCEPTED);
     }
 
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    @PostMapping("/listOrders")
+    @Qualifier("listOrders")
+    public ResponseEntity<List<OrderDTO>> listOrders(@RequestBody OrderListDTO order) {
+        return new ResponseEntity<>(orderHandler.listOrders(order), HttpStatus.ACCEPTED);
+    }
 }

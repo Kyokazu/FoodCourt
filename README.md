@@ -46,5 +46,5 @@ v1.0.4
 
 v1.0.5
 
--Added Order management (model,DTO, entity, handler, repository, service, controller, adapter, UseCase)
--Added Qualifier for creating order.
+- Added Order management (model,DTO, entity, handler, repository, service, controller, adapter, UseCase).
+- Added Qualifier for creating order.
