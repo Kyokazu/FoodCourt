@@ -14,5 +14,6 @@ public class Order {
     private String plateQuantity;
     private OrderStatus status;
     private Long assignedEmployee;
+    private int securityPin;
 
 }

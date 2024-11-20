@@ -116,6 +116,15 @@ public class Config {
     }
 
     @Bean
+    @Qualifier("notifyReadyOrder")
+    public OrderServicePort notifyReadyOrder(
+            OrderPersistencePort orderPersistencePort,
+            RestaurantPersistencePort restaurantPersistencePort,
+            UserPersistencePort userRepository) {
+        return new NotifyOrderReadyUseCase(orderPersistencePort, restaurantPersistencePort, userRepository);
+    }
+
+    @Bean
     public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
