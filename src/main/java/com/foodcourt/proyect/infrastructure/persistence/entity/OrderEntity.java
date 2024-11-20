@@ -30,4 +30,5 @@ public class OrderEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
     private Long assignedEmployee;
+    private int securityPin;
 }

@@ -11,6 +11,8 @@ import com.foodcourt.proyect.domain.repositoryPort.PlatePersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
 import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
+import com.foodcourt.proyect.infrastructure.dto.ClientNotificationDTO;
+import com.foodcourt.proyect.infrastructure.dto.NotificationMessageDTO;
 import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
 import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +50,11 @@ public class CreateOrderUseCase implements OrderServicePort {
 
     @Override
     public Order assignOrder(Long employeeId) {
+        return null;
+    }
+
+    @Override
+    public NotificationMessageDTO notifyOrderReady(ClientNotificationDTO clientNotificationDTO) {
         return null;
     }
 
