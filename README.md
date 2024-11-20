@@ -11,6 +11,7 @@ Hexagonal Architecture
 - MapStruct
 - Spring Security
 - JWT
+- Twilio
 
 ## Current Functionalities
 
@@ -26,6 +27,7 @@ Hexagonal Architecture
 - List Plate
 - Create Order
 - List Order
+- Notify ready order
 
 ## Changelog
 
@@ -59,3 +61,10 @@ v1.0.7
 
 - Added order assignment to an employee from the restaurant which took the order.
 - Added Qualifier for assign order
+
+v1.0.8
+
+- Added Twilio dependency for SMS/Whatsapp messaging services
+- Added Order notification service
+- Modified ORDER table for storing the generated security PIN for order
+- Added the twilio configurations and services.
