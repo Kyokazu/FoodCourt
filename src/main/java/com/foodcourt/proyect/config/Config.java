@@ -125,6 +125,14 @@ public class Config {
     }
 
     @Bean
+    @Qualifier("deliverOrder")
+    public OrderServicePort deliverOrder(
+            OrderPersistencePort orderPersistencePort,
+            RestaurantPersistencePort restaurantPersistencePort) {
+        return new DeliverOrderUseCase(orderPersistencePort, restaurantPersistencePort);
+    }
+
+    @Bean
     public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }

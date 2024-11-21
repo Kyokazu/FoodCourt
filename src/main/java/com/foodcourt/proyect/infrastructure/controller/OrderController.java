@@ -1,6 +1,7 @@
 package com.foodcourt.proyect.infrastructure.controller;
 
 
+import com.foodcourt.proyect.infrastructure.dto.DeliverOrderDTO;
 import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
 import com.foodcourt.proyect.infrastructure.dto.OrderListDTO;
 import com.foodcourt.proyect.infrastructure.handler.OrderHandler;
@@ -41,4 +42,10 @@ public class OrderController {
         return new ResponseEntity<>(orderHandler.assignOrder(order), HttpStatus.ACCEPTED);
     }
 
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    @PutMapping("/deliverOrder")
+    @Qualifier("deliverOrder")
+    public ResponseEntity<String> deliverOrder(@RequestBody DeliverOrderDTO deliverOrderDTO) {
+        return new ResponseEntity<>(orderHandler.deliverOrder(deliverOrderDTO).getMessage(), HttpStatus.ACCEPTED);
+    }
 }

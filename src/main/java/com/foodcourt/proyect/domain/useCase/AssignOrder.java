@@ -9,6 +9,7 @@ import com.foodcourt.proyect.domain.repositoryPort.OrderPersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
 import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
 import com.foodcourt.proyect.infrastructure.dto.ClientNotificationDTO;
+import com.foodcourt.proyect.infrastructure.dto.DeliverOrderDTO;
 import com.foodcourt.proyect.infrastructure.dto.NotificationMessageDTO;
 import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
 import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
@@ -49,6 +50,11 @@ public class AssignOrder implements OrderServicePort {
 
     @Override
     public NotificationMessageDTO notifyOrderReady(ClientNotificationDTO clientNotificationDTO) {
+        return null;
+    }
+
+    @Override
+    public NotificationMessageDTO deliverOrder(DeliverOrderDTO deliverOrderDTO) {
         return null;
     }
 

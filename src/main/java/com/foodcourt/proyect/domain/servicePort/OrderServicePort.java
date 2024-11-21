@@ -3,6 +3,7 @@ package com.foodcourt.proyect.domain.servicePort;
 import com.foodcourt.proyect.domain.comun.CrudBase;
 import com.foodcourt.proyect.domain.model.Order;
 import com.foodcourt.proyect.infrastructure.dto.ClientNotificationDTO;
+import com.foodcourt.proyect.infrastructure.dto.DeliverOrderDTO;
 import com.foodcourt.proyect.infrastructure.dto.NotificationMessageDTO;
 import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
 
@@ -16,4 +17,6 @@ public interface OrderServicePort extends CrudBase<Order, Long> {
     public Order assignOrder(Long employeeId);
 
     public NotificationMessageDTO notifyOrderReady(ClientNotificationDTO clientNotificationDTO);
+
+    public NotificationMessageDTO deliverOrder(DeliverOrderDTO deliverOrderDTO);
 }
