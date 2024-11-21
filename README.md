@@ -28,6 +28,7 @@ Hexagonal Architecture
 - Create Order
 - List Order
 - Notify ready order
+- Deliver order
 
 ## Changelog
 
@@ -66,5 +67,11 @@ v1.0.8
 
 - Added Twilio dependency for SMS/Whatsapp messaging services
 - Added Order notification service
+- Added Qualifier notifyReadyOrder
 - Modified ORDER table for storing the generated security PIN for order
 - Added the twilio configurations and services.
+
+v1.0.9
+
+- Added DeliverOrderUseCase for deliver the order to the client
+- Added Qualifier deliverOrder
