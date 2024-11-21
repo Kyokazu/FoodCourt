@@ -25,34 +25,6 @@ public class CreateOwnerUseCase implements UserServicePort {
     private final UserPersistencePort userRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-
-    @Override
-    public User findById(Long aLong) {
-        return userRepository.findById(aLong);
-    }
-
-    @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    @Override
-    public User save(User entity) {
-        return userRepository.save(entity);
-    }
-
-    @Override
-    public void update(User entity) {
-        if (userRepository.findById(entity.getId()) != null) {
-            userRepository.save(entity);
-        }
-    }
-
-    @Override
-    public void delete(User entity) {
-        userRepository.delete(entity);
-    }
-
     @Override
     public User createOwner(User user) {
         validateUser(user);

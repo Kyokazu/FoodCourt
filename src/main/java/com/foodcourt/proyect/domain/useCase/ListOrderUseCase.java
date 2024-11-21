@@ -60,6 +60,11 @@ public class ListOrderUseCase implements OrderServicePort {
         return null;
     }
 
+    @Override
+    public NotificationMessageDTO cancelOrder(OrderDTO order) {
+        return null;
+    }
+
 
     private Long getRestaurantId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -72,30 +77,5 @@ public class ListOrderUseCase implements OrderServicePort {
                 .collect(Collectors.toList());
 
         return rest.get(0).getId();
-    }
-
-    @Override
-    public Order findById(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public List<Order> findAll() {
-        return orderPersistencePort.findAll();
-    }
-
-    @Override
-    public Order save(Order entity) {
-        return null;
-    }
-
-    @Override
-    public void update(Order entity) {
-
-    }
-
-    @Override
-    public void delete(Order entity) {
-
     }
 }

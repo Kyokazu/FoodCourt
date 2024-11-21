@@ -48,6 +48,11 @@ public class NotifyOrderReadyUseCase implements OrderServicePort {
         return null;
     }
 
+    @Override
+    public NotificationMessageDTO cancelOrder(OrderDTO order) {
+        return null;
+    }
+
 
     private void validateData(Long orderId) {
         if (!existentOrder(orderId)) {
@@ -111,29 +116,4 @@ public class NotifyOrderReadyUseCase implements OrderServicePort {
         return null;
     }
 
-
-    @Override
-    public Order findById(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public List<Order> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public Order save(Order entity) {
-        return null;
-    }
-
-    @Override
-    public void update(Order entity) {
-
-    }
-
-    @Override
-    public void delete(Order entity) {
-
-    }
 }

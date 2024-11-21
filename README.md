@@ -29,6 +29,7 @@ Hexagonal Architecture
 - List Order
 - Notify ready order
 - Deliver order
+- Cancel order
 
 ## Changelog
 
@@ -75,3 +76,9 @@ v1.0.9
 
 - Added DeliverOrderUseCase for deliver the order to the client
 - Added Qualifier deliverOrder
+
+v1.1.0
+
+- Added CancelOrderUseCase for cancelling pending orders
+- Code was refactor for deleting generic implementations
+- Added Qualifier cancelOrder

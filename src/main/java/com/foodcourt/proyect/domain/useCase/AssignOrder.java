@@ -58,6 +58,11 @@ public class AssignOrder implements OrderServicePort {
         return null;
     }
 
+    @Override
+    public NotificationMessageDTO cancelOrder(OrderDTO order) {
+        return null;
+    }
+
     private void validateExistentOrder(Long orderId) {
         Order order = orderPersistencePort.findById(orderId);
         if (order == null) {
@@ -83,29 +88,4 @@ public class AssignOrder implements OrderServicePort {
         return user.getId();
     }
 
-
-    @Override
-    public Order findById(Long aLong) {
-        return orderPersistencePort.findById(aLong);
-    }
-
-    @Override
-    public List<Order> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public Order save(Order entity) {
-        return null;
-    }
-
-    @Override
-    public void update(Order entity) {
-
-    }
-
-    @Override
-    public void delete(Order entity) {
-
-    }
 }

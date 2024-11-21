@@ -1,0 +1,87 @@
+package com.foodcourt.proyect.domain.useCase;
+
+import com.foodcourt.proyect.domain.exception.OrdenInexistenteException;
+import com.foodcourt.proyect.domain.exception.OrdenNoPendienteException;
+import com.foodcourt.proyect.domain.exception.OrderNoListaException;
+import com.foodcourt.proyect.domain.exception.PinInvalidoException;
+import com.foodcourt.proyect.domain.model.Order;
+import com.foodcourt.proyect.domain.model.OrderStatus;
+import com.foodcourt.proyect.domain.repositoryPort.OrderPersistencePort;
+import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
+import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
+import com.foodcourt.proyect.infrastructure.dto.ClientNotificationDTO;
+import com.foodcourt.proyect.infrastructure.dto.DeliverOrderDTO;
+import com.foodcourt.proyect.infrastructure.dto.NotificationMessageDTO;
+import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
+import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
+@RequiredArgsConstructor
+public class CancelOrderUseCase implements OrderServicePort {
+
+    private final OrderPersistencePort orderPersistencePort;
+
+    @Override
+    public NotificationMessageDTO cancelOrder(OrderDTO order) {
+        NotificationMessageDTO notificationMessageDTO = new NotificationMessageDTO("", "");
+        if (!validateData(order.getId())) {
+            notificationMessageDTO.setMessage("We are sorry, your order #"
+                    + order.getId()
+                    + " is on preparation and can't be cancelled");
+        } else {
+            Order order1 = orderPersistencePort.findById(order.getId());
+            order1.setStatus(OrderStatus.CANCELED);
+            orderPersistencePort.update(order1);
+            String message = "Your order #"
+                    + order.getId()
+                    + " has been canceled!";
+            notificationMessageDTO.setMessage(message);
+        }
+        return notificationMessageDTO;
+    }
+
+
+    private boolean validateData(Long orderId) {
+        if (!existentOrder(orderId)) {
+            throw new OrdenInexistenteException();
+        }
+        return validateOrderStatus(orderId);
+    }
+
+
+    private boolean existentOrder(Long orderId) {
+        return orderPersistencePort.findById(orderId) != null;
+    }
+
+    private boolean validateOrderStatus(Long orderId) {
+        return orderPersistencePort.findById(orderId).getStatus() == OrderStatus.PENDING;
+    }
+
+
+    @Override
+    public Order createOrder(Order order) {
+        return null;
+    }
+
+    @Override
+    public List<OrderDTO> listOrders(Long orders, String status) {
+        return List.of();
+    }
+
+    @Override
+    public Order assignOrder(Long employeeId) {
+        return null;
+    }
+
+    @Override
+    public NotificationMessageDTO notifyOrderReady(ClientNotificationDTO clientNotificationDTO) {
+        return null;
+    }
+
+    @Override
+    public NotificationMessageDTO deliverOrder(DeliverOrderDTO deliverOrderDTO) {
+        return null;
+    }
+
+}

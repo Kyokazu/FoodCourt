@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class OrderHandler implements CrudBase<OrderDTO, Long> {
+public class OrderHandler {
 
     private final OrderDTOMapper orderDTOMapper;
     private final OrderServicePort createOrderServicePort;
@@ -19,19 +19,22 @@ public class OrderHandler implements CrudBase<OrderDTO, Long> {
     private final OrderServicePort assignOrderServicePort;
     private final OrderServicePort notifyReadyOrderServicePort;
     private final OrderServicePort deliverOrderServicePort;
+    private final OrderServicePort cancelOrderServicePort;
 
     public OrderHandler(OrderDTOMapper orderDTOMapper,
                         @Qualifier("createOrder") OrderServicePort createOrderServicePort,
                         @Qualifier("listOrders") OrderServicePort listOrdersServicePort,
                         @Qualifier("assignOrder") OrderServicePort assignOrderServicePort,
                         @Qualifier("notifyReadyOrder") OrderServicePort notifyReadyOrderServicePort,
-                        @Qualifier("deliverOrder") OrderServicePort deliverOrderServicePort) {
+                        @Qualifier("deliverOrder") OrderServicePort deliverOrderServicePort,
+                        @Qualifier("cancelOrder") OrderServicePort cancelOrderServicePort) {
         this.orderDTOMapper = orderDTOMapper;
         this.createOrderServicePort = createOrderServicePort;
         this.listOrdersServicePort = listOrdersServicePort;
         this.assignOrderServicePort = assignOrderServicePort;
         this.notifyReadyOrderServicePort = notifyReadyOrderServicePort;
         this.deliverOrderServicePort = deliverOrderServicePort;
+        this.cancelOrderServicePort = cancelOrderServicePort;
     }
 
     public OrderDTO createOrder(OrderDTO orderDTO) {
@@ -56,28 +59,8 @@ public class OrderHandler implements CrudBase<OrderDTO, Long> {
         return deliverOrderServicePort.deliverOrder(deliverOrderDTO);
     }
 
-    @Override
-    public OrderDTO findById(Long aLong) {
-        return null;
+    public NotificationMessageDTO cancelOrder(OrderDTO orderDTO) {
+        return cancelOrderServicePort.cancelOrder(orderDTO);
     }
 
-    @Override
-    public List<OrderDTO> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public OrderDTO save(OrderDTO entity) {
-        return null;
-    }
-
-    @Override
-    public void update(OrderDTO entity) {
-
-    }
-
-    @Override
-    public void delete(OrderDTO entity) {
-
-    }
 }

@@ -9,7 +9,7 @@ import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
 
 import java.util.List;
 
-public interface OrderServicePort extends CrudBase<Order, Long> {
+public interface OrderServicePort {
     public Order createOrder(Order order);
 
     public List<OrderDTO> listOrders(Long orders, String status);
@@ -19,4 +19,6 @@ public interface OrderServicePort extends CrudBase<Order, Long> {
     public NotificationMessageDTO notifyOrderReady(ClientNotificationDTO clientNotificationDTO);
 
     public NotificationMessageDTO deliverOrder(DeliverOrderDTO deliverOrderDTO);
+
+    public NotificationMessageDTO cancelOrder(OrderDTO order);
 }

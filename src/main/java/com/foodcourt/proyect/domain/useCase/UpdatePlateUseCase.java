@@ -63,31 +63,6 @@ public class UpdatePlateUseCase implements PlateServicePort {
         return List.of();
     }
 
-    @Override
-    public Plate findById(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public List<Plate> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public Plate save(Plate entity) {
-        return null;
-    }
-
-    @Override
-    public void update(Plate plate) {
-
-    }
-
-    @Override
-    public void delete(Plate entity) {
-
-    }
-
     private boolean verifyUpdateFields(Plate plate) {
         return Objects.equals(plate.getDescription(), platePersistencePort.findById(plate.getId()).getDescription())
                 && !Objects.equals(plate.getPrice(), platePersistencePort.findById(plate.getId()).getPrice());

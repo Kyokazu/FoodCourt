@@ -85,30 +85,4 @@ public class CreateClientUseCase implements UserServicePort {
     public User createEmployee(User user) {
         return null;
     }
-
-
-    @Override
-    public User findById(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public List<User> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public User save(User entity) {
-        return null;
-    }
-
-    @Override
-    public void update(User entity) {
-
-    }
-
-    @Override
-    public void delete(User entity) {
-
-    }
 }

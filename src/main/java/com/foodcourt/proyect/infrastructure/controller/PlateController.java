@@ -1,7 +1,7 @@
 package com.foodcourt.proyect.infrastructure.controller;
 
 
-import com.foodcourt.proyect.infrastructure.comun.CrudController;
+
 import com.foodcourt.proyect.infrastructure.dto.ListPlateDTO;
 import com.foodcourt.proyect.infrastructure.dto.PageDTO;
 import com.foodcourt.proyect.infrastructure.dto.PlateDTO;
@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/plate")
-public class PlateController implements CrudController<PlateDTO, Long> {
+public class PlateController {
 
     private final PlateHandler plateHandler;
 
@@ -50,29 +50,4 @@ public class PlateController implements CrudController<PlateDTO, Long> {
         return new ResponseEntity<List<ListPlateDTO>>(plateHandler.listPlate(pageDTO), HttpStatus.ACCEPTED);
     }
 
-
-    @Override
-    public ResponseEntity<PlateDTO> findById(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<List<PlateDTO>> findAll() {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<PlateDTO> save(PlateDTO entity) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<Void> update(Long aLong, PlateDTO entity) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<Void> delete(Long aLong) {
-        return null;
-    }
 }

@@ -52,31 +52,6 @@ public class CreateEmployeeUseCase implements UserServicePort {
         return null;
     }
 
-    @Override
-    public User findById(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public List<User> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public User save(User entity) {
-        return null;
-    }
-
-    @Override
-    public void update(User entity) {
-
-    }
-
-    @Override
-    public void delete(User entity) {
-
-    }
-
     private void validateUser(User usuario) {
         if (!correoValido(usuario.getMail())) {
             throw new CorreoNoValidoException();

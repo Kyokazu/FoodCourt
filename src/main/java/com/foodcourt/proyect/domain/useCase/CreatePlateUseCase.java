@@ -47,33 +47,6 @@ public class CreatePlateUseCase implements PlateServicePort {
         return List.of();
     }
 
-    @Override
-    public Plate findById(Long aLong) {
-        return platePersistencePort.findById(aLong);
-    }
-
-    @Override
-    public List<Plate> findAll() {
-        return platePersistencePort.findAll();
-    }
-
-    @Override
-    public Plate save(Plate entity) {
-        return platePersistencePort.save(entity);
-    }
-
-    @Override
-    public void update(Plate entity) {
-        if (platePersistencePort.findById(entity.getId()) != null) {
-            platePersistencePort.save(entity);
-        }
-    }
-
-    @Override
-    public void delete(Plate entity) {
-        platePersistencePort.delete(entity);
-    }
-
     private boolean validateExistentRestaurant(Long id) {
         return restaurantPersistencePort.findById(id) != null;
     }
