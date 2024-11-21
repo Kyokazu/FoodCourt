@@ -7,6 +7,8 @@ import com.foodcourt.proyect.infrastructure.handler.SMSHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,18 +24,18 @@ public class NotificationController {
     @PreAuthorize("hasRole('EMPLOYEE')")
     @PutMapping("/sendSms")
     @Qualifier("notifyReadyOrder")
-    public String sendSms(@RequestBody ClientNotificationDTO clientNotificationDTO) {
+    public ResponseEntity<String> sendSms(@RequestBody ClientNotificationDTO clientNotificationDTO) {
         NotificationMessageDTO notificationMessageDTO = orderHandler.notifyReadyOrder(clientNotificationDTO);
         smsHandler.sendSms(notificationMessageDTO.getClientPhone(), notificationMessageDTO.getMessage());
-        return notificationMessageDTO.getMessage();
+        return new ResponseEntity<>(notificationMessageDTO.getMessage(), HttpStatus.ACCEPTED);
     }
 
     @PreAuthorize("hasRole('EMPLOYEE')")
     @Qualifier("notifyReadyOrder")
     @PutMapping("/sendWhatsapp")
-    public String sendWhatsapp(@RequestBody ClientNotificationDTO clientNotificationDTO) {
+    public ResponseEntity<String> sendWhatsapp(@RequestBody ClientNotificationDTO clientNotificationDTO) {
         NotificationMessageDTO notificationMessageDTO = orderHandler.notifyReadyOrder(clientNotificationDTO);
         smsHandler.sendWhatsapp(notificationMessageDTO.getClientPhone(), notificationMessageDTO.getMessage());
-        return notificationMessageDTO.getMessage();
+        return new ResponseEntity<>(notificationMessageDTO.getMessage(), HttpStatus.ACCEPTED);
     }
 }

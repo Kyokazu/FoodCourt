@@ -31,4 +31,9 @@ public class OrderDTO {
 
     public OrderDTO() {
     }
+
+    public OrderDTO(Long id, OrderStatus status) {
+        this.id = id;
+        this.status = status;
+    }
 }

@@ -2,10 +2,7 @@ package com.foodcourt.proyect.infrastructure.handler;
 
 import com.foodcourt.proyect.domain.comun.CrudBase;
 import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
-import com.foodcourt.proyect.infrastructure.dto.ClientNotificationDTO;
-import com.foodcourt.proyect.infrastructure.dto.NotificationMessageDTO;
-import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
-import com.foodcourt.proyect.infrastructure.dto.OrderListDTO;
+import com.foodcourt.proyect.infrastructure.dto.*;
 import com.foodcourt.proyect.infrastructure.mapper.OrderDTOMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -21,17 +18,20 @@ public class OrderHandler implements CrudBase<OrderDTO, Long> {
     private final OrderServicePort listOrdersServicePort;
     private final OrderServicePort assignOrderServicePort;
     private final OrderServicePort notifyReadyOrderServicePort;
+    private final OrderServicePort deliverOrderServicePort;
 
     public OrderHandler(OrderDTOMapper orderDTOMapper,
                         @Qualifier("createOrder") OrderServicePort createOrderServicePort,
                         @Qualifier("listOrders") OrderServicePort listOrdersServicePort,
                         @Qualifier("assignOrder") OrderServicePort assignOrderServicePort,
-                        @Qualifier("notifyReadyOrder") OrderServicePort notifyReadyOrderServicePort) {
+                        @Qualifier("notifyReadyOrder") OrderServicePort notifyReadyOrderServicePort,
+                        @Qualifier("deliverOrder") OrderServicePort deliverOrderServicePort) {
         this.orderDTOMapper = orderDTOMapper;
         this.createOrderServicePort = createOrderServicePort;
         this.listOrdersServicePort = listOrdersServicePort;
         this.assignOrderServicePort = assignOrderServicePort;
         this.notifyReadyOrderServicePort = notifyReadyOrderServicePort;
+        this.deliverOrderServicePort = deliverOrderServicePort;
     }
 
     public OrderDTO createOrder(OrderDTO orderDTO) {
@@ -52,6 +52,9 @@ public class OrderHandler implements CrudBase<OrderDTO, Long> {
         return notifyReadyOrderServicePort.notifyOrderReady(clientNotificationDTO);
     }
 
+    public NotificationMessageDTO deliverOrder(DeliverOrderDTO deliverOrderDTO) {
+        return deliverOrderServicePort.deliverOrder(deliverOrderDTO);
+    }
 
     @Override
     public OrderDTO findById(Long aLong) {
