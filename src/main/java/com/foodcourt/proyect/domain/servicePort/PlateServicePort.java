@@ -7,7 +7,7 @@ import com.foodcourt.proyect.infrastructure.dto.PageDTO;
 
 import java.util.List;
 
-public interface PlateServicePort extends CrudBase<Plate, Long> {
+public interface PlateServicePort {
 
     public Plate createPlate(Plate plate);
 

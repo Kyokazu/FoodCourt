@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Service
 
 
-public class UserHandler implements CrudBase<UserDTO, Long> {
+public class UserHandler {
 
     private final UserDTOMapper userDTOMapper;
     private final UserServicePort createOwnerServicePort;
@@ -31,30 +31,6 @@ public class UserHandler implements CrudBase<UserDTO, Long> {
         this.userDTOMapper = userDTOMapper;
         this.createOwnerServicePort = createOwnerServicePort;
         this.createClientServicePort = createClientServicePort;
-    }
-
-    @Override
-    public UserDTO findById(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public List<UserDTO> findAll() {
-        return null;
-    }
-
-    @Override
-    public UserDTO save(UserDTO entity) {
-        return null;
-    }
-
-    @Override
-    public void update(UserDTO entity) {
-    }
-
-    @Override
-    public void delete(UserDTO entity) {
-
     }
 
     public UserDTO createOwner(UserDTO userDTO) {

@@ -1,6 +1,5 @@
 package com.foodcourt.proyect.infrastructure.controller;
 
-import com.foodcourt.proyect.infrastructure.comun.CrudController;
 import com.foodcourt.proyect.infrastructure.dto.UserDTO;
 import com.foodcourt.proyect.infrastructure.handler.UserHandler;
 import com.foodcourt.proyect.infrastructure.security.AuthResponse;
@@ -21,7 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
-public class UserController implements CrudController<UserDTO, Long> {
+public class UserController {
 
     private final UserHandler userHandler;
     private final AuthService authService;
@@ -30,33 +29,6 @@ public class UserController implements CrudController<UserDTO, Long> {
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(authService.login(loginRequest));
     }
-
-    @Override
-    public ResponseEntity<UserDTO> findById(Long aLong) {
-        return new ResponseEntity<>(userHandler.findById(aLong), HttpStatus.ACCEPTED);
-    }
-
-    @Override
-    public ResponseEntity<List<UserDTO>> findAll() {
-
-        return new ResponseEntity<>(userHandler.findAll(), HttpStatus.ACCEPTED);
-    }
-
-    @Override
-    public ResponseEntity<UserDTO> save(UserDTO entity) {
-        return new ResponseEntity<>(userHandler.save(entity), HttpStatus.ACCEPTED);
-    }
-
-    @Override
-    public ResponseEntity<Void> update(Long aLong, UserDTO entity) {
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    }
-
-    @Override
-    public ResponseEntity<Void> delete(Long aLong) {
-        return null;
-    }
-
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/createOwner")

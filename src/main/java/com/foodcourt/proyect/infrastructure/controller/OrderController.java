@@ -48,4 +48,12 @@ public class OrderController {
     public ResponseEntity<String> deliverOrder(@RequestBody DeliverOrderDTO deliverOrderDTO) {
         return new ResponseEntity<>(orderHandler.deliverOrder(deliverOrderDTO).getMessage(), HttpStatus.ACCEPTED);
     }
+
+    @PreAuthorize("hasRole('CLIENT')")
+    @PutMapping("/cancelOrder")
+    @Qualifier("cancelOrder")
+    public ResponseEntity<String> cancelOrder(@RequestBody OrderDTO order) {
+        return new ResponseEntity<>(orderHandler.cancelOrder(order).getMessage(), HttpStatus.ACCEPTED);
+    }
+
 }

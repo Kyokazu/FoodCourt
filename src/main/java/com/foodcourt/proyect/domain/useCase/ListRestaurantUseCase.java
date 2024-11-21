@@ -31,28 +31,4 @@ public class ListRestaurantUseCase implements RestaurantServicePort {
     }
 
 
-    @Override
-    public Restaurant findById(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public List<Restaurant> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public Restaurant save(Restaurant entity) {
-        return null;
-    }
-
-    @Override
-    public void update(Restaurant entity) {
-
-    }
-
-    @Override
-    public void delete(Restaurant entity) {
-
-    }
 }

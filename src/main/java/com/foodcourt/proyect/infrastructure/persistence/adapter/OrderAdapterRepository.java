@@ -40,11 +40,7 @@ public class OrderAdapterRepository implements OrderPersistencePort {
 
     @Override
     public void delete(Order entity) {
-
+        orderRepository.delete(orderEntityMapper.BToA(entity));
     }
 
-    @Override
-    public Order createOrder(Order order) {
-        return null;
-    }
 }

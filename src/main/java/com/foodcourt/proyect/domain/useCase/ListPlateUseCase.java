@@ -56,31 +56,4 @@ public class ListPlateUseCase implements PlateServicePort {
                 .collect(Collectors.toList());
     }
 
-
-    @Override
-    public Plate findById(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public List<Plate> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public Plate save(Plate entity) {
-        return null;
-    }
-
-    @Override
-    public void update(Plate entity) {
-
-    }
-
-    @Override
-    public void delete(Plate entity) {
-
-    }
-
-
 }

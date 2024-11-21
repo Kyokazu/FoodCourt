@@ -34,34 +34,6 @@ public class CreateRestaurantUseCase implements RestaurantServicePort {
         return List.of();
     }
 
-
-    @Override
-    public Restaurant findById(Long aLong) {
-        return restaurantPersistencePort.findById(aLong);
-    }
-
-    @Override
-    public List<Restaurant> findAll() {
-        return restaurantPersistencePort.findAll();
-    }
-
-    @Override
-    public Restaurant save(Restaurant entity) {
-        return restaurantPersistencePort.save(entity);
-    }
-
-    @Override
-    public void update(Restaurant entity) {
-        if (restaurantPersistencePort.findById(entity.getId()) != null) {
-            restaurantPersistencePort.save(entity);
-        }
-    }
-
-    @Override
-    public void delete(Restaurant entity) {
-        restaurantPersistencePort.delete(entity);
-    }
-
     private void restaurantCreationValidations(Restaurant entity) {
         Long ownerId = getOwnerId();
         if (!existentUser(ownerId)) {

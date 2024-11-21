@@ -1,6 +1,5 @@
 package com.foodcourt.proyect.infrastructure.controller;
 
-import com.foodcourt.proyect.infrastructure.comun.CrudController;
 import com.foodcourt.proyect.infrastructure.dto.ListRestaurantDTO;
 import com.foodcourt.proyect.infrastructure.dto.PageDTO;
 import com.foodcourt.proyect.infrastructure.dto.RestaurantDTO;
@@ -19,34 +18,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/restaurant")
-public class RestaurantController implements CrudController<RestaurantDTO, Long> {
+public class RestaurantController {
 
     private final RestaurantHandler restaurantHandler;
-
-    @Override
-    public ResponseEntity<RestaurantDTO> findById(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<List<RestaurantDTO>> findAll() {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<RestaurantDTO> save(RestaurantDTO entity) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<Void> update(Long aLong, RestaurantDTO entity) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<Void> delete(Long aLong) {
-        return null;
-    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/createRestaurant")

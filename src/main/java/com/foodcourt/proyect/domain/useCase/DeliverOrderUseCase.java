@@ -33,6 +33,11 @@ public class DeliverOrderUseCase implements OrderServicePort {
         return new NotificationMessageDTO("", "The order #" + deliverOrderDTO.getOrderId() + " was delivered successfully");
     }
 
+    @Override
+    public NotificationMessageDTO cancelOrder(OrderDTO order) {
+        return null;
+    }
+
     private void validateData(Long orderId) {
         if (!existentOrder(orderId)) {
             throw new OrdenInexistenteException();
@@ -91,28 +96,4 @@ public class DeliverOrderUseCase implements OrderServicePort {
     }
 
 
-    @Override
-    public Order findById(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public List<Order> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public Order save(Order entity) {
-        return null;
-    }
-
-    @Override
-    public void update(Order entity) {
-
-    }
-
-    @Override
-    public void delete(Order entity) {
-
-    }
 }

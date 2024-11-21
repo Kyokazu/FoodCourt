@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PlateHandler implements CrudBase<PlateDTO, Long> {
+public class PlateHandler {
 
     private final PlateDTOMapper plateDTOMapper;
     private final PlateServicePort createPlateServicePort;
@@ -47,30 +47,6 @@ public class PlateHandler implements CrudBase<PlateDTO, Long> {
 
     public List<ListPlateDTO> listPlate(PageDTO pageDTO) {
         return listPlateServicePort.listPlate(pageDTO);
-    }
-
-    @Override
-    public PlateDTO findById(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public List<PlateDTO> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public PlateDTO save(PlateDTO entity) {
-        return null;
-    }
-
-    @Override
-    public void update(PlateDTO entity) {
-    }
-
-    @Override
-    public void delete(PlateDTO entity) {
-
     }
 
 

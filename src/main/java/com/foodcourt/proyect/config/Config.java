@@ -133,6 +133,13 @@ public class Config {
     }
 
     @Bean
+    @Qualifier("cancelOrder")
+    public OrderServicePort cancelOrder(
+            OrderPersistencePort orderPersistencePort) {
+        return new CancelOrderUseCase(orderPersistencePort);
+    }
+
+    @Bean
     public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }

@@ -55,29 +55,6 @@ public class EnableUnablePlateUseCase implements PlateServicePort {
         return List.of();
     }
 
-    @Override
-    public Plate findById(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public List<Plate> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public Plate save(Plate entity) {
-        return null;
-    }
-
-    @Override
-    public void update(Plate entity) {
-    }
-
-    @Override
-    public void delete(Plate entity) {
-    }
-
     private boolean validatePlateOwner(Long plateId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = (UserEntity) authentication.getPrincipal();

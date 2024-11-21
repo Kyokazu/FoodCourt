@@ -64,6 +64,11 @@ public class CreateOrderUseCase implements OrderServicePort {
         return null;
     }
 
+    @Override
+    public NotificationMessageDTO cancelOrder(OrderDTO order) {
+        return null;
+    }
+
     private void validateOrder(Order order) {
 
         if (!validateExistentRestaurant(order.getRestaurantId())) {
@@ -121,31 +126,5 @@ public class CreateOrderUseCase implements OrderServicePort {
                 .filter(order -> order.getClientId().equals(clientId))
                 .anyMatch(order -> order.getStatus() == OrderStatus.CANCELED
                         || order.getStatus() == OrderStatus.DELIVERED);
-    }
-
-
-    @Override
-    public Order findById(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public List<Order> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public Order save(Order entity) {
-        return null;
-    }
-
-    @Override
-    public void update(Order entity) {
-
-    }
-
-    @Override
-    public void delete(Order entity) {
-
     }
 }
