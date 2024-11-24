@@ -2,24 +2,23 @@ package com.foodcourt.proyect.domain.useCase;
 
 import com.foodcourt.proyect.domain.exception.OrdenInexistenteException;
 import com.foodcourt.proyect.domain.exception.OrdenNoEnPreparacionException;
-import com.foodcourt.proyect.domain.exception.OrdenNoPendienteException;
 import com.foodcourt.proyect.domain.exception.OrderDeOtroRestauranteException;
 import com.foodcourt.proyect.domain.model.*;
 import com.foodcourt.proyect.domain.repositoryPort.OrderPersistencePort;
-import com.foodcourt.proyect.domain.repositoryPort.PlatePersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
+import com.foodcourt.proyect.domain.repositoryPort.StatusChangePersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
 import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
 import com.foodcourt.proyect.infrastructure.dto.ClientNotificationDTO;
 import com.foodcourt.proyect.infrastructure.dto.DeliverOrderDTO;
 import com.foodcourt.proyect.infrastructure.dto.NotificationMessageDTO;
 import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
-import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
+import com.foodcourt.proyect.infrastructure.persistence.jpa.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -30,6 +29,7 @@ public class NotifyOrderReadyUseCase implements OrderServicePort {
     private final OrderPersistencePort orderPersistencePort;
     private final RestaurantPersistencePort restaurantPersistencePort;
     private final UserPersistencePort userPersistencePort;
+    private final StatusChangePersistencePort statusChangePersistencePort;
 
 
     @Override
@@ -40,6 +40,7 @@ public class NotifyOrderReadyUseCase implements OrderServicePort {
         order.setStatus(OrderStatus.READY);
         order.setSecurityPin(generateSecurityPin());
         orderPersistencePort.update(order);
+        registerStatusChange(order);
         return new NotificationMessageDTO(client.getPhone(), createMessage(order));
     }
 
@@ -98,6 +99,15 @@ public class NotifyOrderReadyUseCase implements OrderServicePort {
     private int generateSecurityPin() {
         Random random = new Random();
         return 1000 + random.nextInt(9000);
+    }
+
+    private void registerStatusChange(Order order) {
+        StatusChange statusChange = new StatusChange();
+        statusChange.setOrderId(order.getId());
+        statusChange.setClientId(order.getClientId());
+        statusChange.setStatus(order.getStatus().name());
+        statusChange.setChangeDate(new Date());
+        statusChangePersistencePort.registerStatusChange(statusChange);
     }
 
 

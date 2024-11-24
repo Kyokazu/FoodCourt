@@ -1,9 +1,10 @@
-package com.foodcourt.proyect.infrastructure.persistence.adapter;
+package com.foodcourt.proyect.infrastructure.persistence.jpa.adapter;
 
 import com.foodcourt.proyect.domain.model.Order;
 import com.foodcourt.proyect.domain.repositoryPort.OrderPersistencePort;
 import com.foodcourt.proyect.infrastructure.mapper.OrderEntityMapper;
-import com.foodcourt.proyect.infrastructure.persistence.repository.OrderRepository;
+import com.foodcourt.proyect.infrastructure.persistence.jpa.repository.OrderRepository;
+import com.foodcourt.proyect.infrastructure.persistence.mongodb.repository.StatusChangeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +17,7 @@ public class OrderAdapterRepository implements OrderPersistencePort {
 
     private final OrderRepository orderRepository;
     private final OrderEntityMapper orderEntityMapper;
-
+    private final StatusChangeRepository statusChangeRepository;
 
     @Override
     public Order findById(Long aLong) {
@@ -38,7 +39,6 @@ public class OrderAdapterRepository implements OrderPersistencePort {
         orderRepository.save(orderEntityMapper.BToA(entity));
     }
 
-    @Override
     public void delete(Order entity) {
         orderRepository.delete(orderEntityMapper.BToA(entity));
     }

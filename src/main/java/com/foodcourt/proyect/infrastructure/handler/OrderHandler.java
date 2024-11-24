@@ -1,6 +1,5 @@
 package com.foodcourt.proyect.infrastructure.handler;
 
-import com.foodcourt.proyect.domain.comun.CrudBase;
 import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
 import com.foodcourt.proyect.infrastructure.dto.*;
 import com.foodcourt.proyect.infrastructure.mapper.OrderDTOMapper;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderHandler {
@@ -38,7 +36,6 @@ public class OrderHandler {
     }
 
     public OrderDTO createOrder(OrderDTO orderDTO) {
-
         return orderDTOMapper.BToA(createOrderServicePort.createOrder(orderDTOMapper.AToB(orderDTO)));
     }
 

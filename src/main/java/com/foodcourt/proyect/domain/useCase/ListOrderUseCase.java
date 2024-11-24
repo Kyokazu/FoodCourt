@@ -2,16 +2,14 @@ package com.foodcourt.proyect.domain.useCase;
 
 import com.foodcourt.proyect.domain.model.Order;
 import com.foodcourt.proyect.domain.model.Restaurant;
-import com.foodcourt.proyect.domain.model.User;
 import com.foodcourt.proyect.domain.repositoryPort.OrderPersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
-import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
 import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
 import com.foodcourt.proyect.infrastructure.dto.ClientNotificationDTO;
 import com.foodcourt.proyect.infrastructure.dto.DeliverOrderDTO;
 import com.foodcourt.proyect.infrastructure.dto.NotificationMessageDTO;
 import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
-import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
+import com.foodcourt.proyect.infrastructure.persistence.jpa.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

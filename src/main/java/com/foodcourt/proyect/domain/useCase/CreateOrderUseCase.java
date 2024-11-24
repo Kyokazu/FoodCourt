@@ -6,22 +6,21 @@ import com.foodcourt.proyect.domain.exception.RestauranteInexistenteException;
 import com.foodcourt.proyect.domain.model.Order;
 import com.foodcourt.proyect.domain.model.OrderStatus;
 import com.foodcourt.proyect.domain.model.Plate;
-import com.foodcourt.proyect.domain.repositoryPort.OrderPersistencePort;
-import com.foodcourt.proyect.domain.repositoryPort.PlatePersistencePort;
-import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
-import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
+import com.foodcourt.proyect.domain.model.StatusChange;
+import com.foodcourt.proyect.domain.repositoryPort.*;
 import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
 import com.foodcourt.proyect.infrastructure.dto.ClientNotificationDTO;
 import com.foodcourt.proyect.infrastructure.dto.DeliverOrderDTO;
 import com.foodcourt.proyect.infrastructure.dto.NotificationMessageDTO;
 import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
-import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
+import com.foodcourt.proyect.infrastructure.persistence.jpa.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -32,6 +31,7 @@ public class CreateOrderUseCase implements OrderServicePort {
     private final PlatePersistencePort platePersistencePort;
     private final RestaurantPersistencePort restaurantPersistencePort;
     private final UserPersistencePort userPersistencePort;
+    private final StatusChangePersistencePort statusChangePersistencePort;
 
 
     public Order createOrder(Order order) {
@@ -40,8 +40,9 @@ public class CreateOrderUseCase implements OrderServicePort {
         validateOrder(order);
         order.setStatus(OrderStatus.PENDING);
         order.setAssignedEmployee(null);
-        orderPersistencePort.save(order);
-        return order;
+        Order newOrder = orderPersistencePort.save(order);
+        registerStatusChange(newOrder);
+        return newOrder;
     }
 
     @Override
@@ -69,6 +70,15 @@ public class CreateOrderUseCase implements OrderServicePort {
         return null;
     }
 
+    private void registerStatusChange(Order order) {
+        StatusChange statusChange = new StatusChange();
+        statusChange.setOrderId(order.getId());
+        statusChange.setClientId(order.getClientId());
+        statusChange.setStatus(order.getStatus().name());
+        statusChange.setChangeDate(new Date());
+        statusChangePersistencePort.registerStatusChange(statusChange);
+    }
+
     private void validateOrder(Order order) {
 
         if (!validateExistentRestaurant(order.getRestaurantId())) {
@@ -77,7 +87,7 @@ public class CreateOrderUseCase implements OrderServicePort {
         if (!validateExistentPlate(order.getPlateList())) {
             throw new PlatoInexistenteException();
         }
-        if (!validateUserOrderStatus(order.getClientId())) {
+        if (validateUserOrderStatus(order.getClientId())) {
             throw new PedidoDeClientInvalidoException();
         }
         if (!validatePlateSameRestaurant(order.getPlateList(), getRestaurantId(order.getPlateList()))) {
@@ -104,19 +114,23 @@ public class CreateOrderUseCase implements OrderServicePort {
     private boolean validateExistentPlate(String plateIds) {
         List<String> list = Arrays.asList(plateIds.split(","));
         List<Plate> pltList = platePersistencePort.findAll();
-        return list.stream().allMatch(plateIdStr -> {
-            Long plateId = Long.parseLong(plateIdStr.trim());
-            return pltList.stream().anyMatch(plate -> plate.getId().equals(plateId));
-        });
+        return list
+                .stream()
+                .allMatch(plateIdStr -> {
+                    Long plateId = Long.parseLong(plateIdStr.trim());
+                    return pltList.stream().anyMatch(plate -> plate.getId().equals(plateId));
+                });
     }
 
     private boolean validatePlateSameRestaurant(String plateIds, Long restaurantId) {
         List<String> idList = Arrays.asList(plateIds.split(","));
-        return idList.stream().allMatch(plateIdStr -> {
-            Long plateId = Long.parseLong(plateIdStr.trim());
-            Plate existingPlate = platePersistencePort.findById(plateId);
-            return existingPlate != null && existingPlate.getRestaurantId().equals(restaurantId);
-        });
+        return idList
+                .stream()
+                .allMatch(plateIdStr -> {
+                    Long plateId = Long.parseLong(plateIdStr.trim());
+                    Plate existingPlate = platePersistencePort.findById(plateId);
+                    return existingPlate != null && existingPlate.getRestaurantId().equals(restaurantId);
+                });
     }
 
     private boolean validateUserOrderStatus(Long clientId) {
@@ -124,7 +138,8 @@ public class CreateOrderUseCase implements OrderServicePort {
         return orders
                 .stream()
                 .filter(order -> order.getClientId().equals(clientId))
-                .anyMatch(order -> order.getStatus() == OrderStatus.CANCELED
-                        || order.getStatus() == OrderStatus.DELIVERED);
+                .anyMatch(order -> order.getStatus() == OrderStatus.PENDING
+                        || order.getStatus() == OrderStatus.ON_PREPARATION
+                        || order.getStatus() == OrderStatus.READY);
     }
 }

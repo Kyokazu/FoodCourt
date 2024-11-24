@@ -1,4 +1,4 @@
-package com.foodcourt.proyect.infrastructure.persistence.entity;
+package com.foodcourt.proyect.infrastructure.persistence.jpa.entity;
 
 import com.foodcourt.proyect.domain.model.OrderStatus;
 import com.foodcourt.proyect.domain.model.Plate;

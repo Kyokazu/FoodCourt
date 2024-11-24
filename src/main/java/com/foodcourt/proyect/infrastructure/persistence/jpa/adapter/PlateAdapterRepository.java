@@ -1,9 +1,9 @@
-package com.foodcourt.proyect.infrastructure.persistence.adapter;
+package com.foodcourt.proyect.infrastructure.persistence.jpa.adapter;
 
 import com.foodcourt.proyect.domain.model.Plate;
 import com.foodcourt.proyect.domain.repositoryPort.PlatePersistencePort;
 import com.foodcourt.proyect.infrastructure.mapper.PlateEntityMapper;
-import com.foodcourt.proyect.infrastructure.persistence.repository.PlateRepository;
+import com.foodcourt.proyect.infrastructure.persistence.jpa.repository.PlateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +27,7 @@ public class PlateAdapterRepository implements PlatePersistencePort {
         return plateEntityMapper.AToB(plateRepository.findAll().stream()).collect(Collectors.toList());
     }
 
+
     @Override
     public Plate save(Plate entity) {
         return plateEntityMapper.AToB(plateRepository.save(plateEntityMapper.BToA(entity)));
@@ -37,7 +38,7 @@ public class PlateAdapterRepository implements PlatePersistencePort {
         plateEntityMapper.AToB(plateRepository.save(plateEntityMapper.BToA(entity)));
     }
 
-    @Override
+
     public void delete(Plate entity) {
         plateRepository.delete(plateEntityMapper.BToA(entity));
     }

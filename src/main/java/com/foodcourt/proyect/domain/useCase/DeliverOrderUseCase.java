@@ -3,18 +3,21 @@ package com.foodcourt.proyect.domain.useCase;
 import com.foodcourt.proyect.domain.exception.*;
 import com.foodcourt.proyect.domain.model.Order;
 import com.foodcourt.proyect.domain.model.OrderStatus;
+import com.foodcourt.proyect.domain.model.StatusChange;
 import com.foodcourt.proyect.domain.repositoryPort.OrderPersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
+import com.foodcourt.proyect.domain.repositoryPort.StatusChangePersistencePort;
 import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
 import com.foodcourt.proyect.infrastructure.dto.ClientNotificationDTO;
 import com.foodcourt.proyect.infrastructure.dto.DeliverOrderDTO;
 import com.foodcourt.proyect.infrastructure.dto.NotificationMessageDTO;
 import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
-import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
+import com.foodcourt.proyect.infrastructure.persistence.jpa.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,6 +25,7 @@ public class DeliverOrderUseCase implements OrderServicePort {
 
     private final OrderPersistencePort orderPersistencePort;
     private final RestaurantPersistencePort restaurantPersistencePort;
+    private final StatusChangePersistencePort statusChangePersistencePort;
 
     @Override
     public NotificationMessageDTO deliverOrder(DeliverOrderDTO deliverOrderDTO) {
@@ -30,6 +34,7 @@ public class DeliverOrderUseCase implements OrderServicePort {
         validateSecurityPin(order.getSecurityPin(), deliverOrderDTO.getSecurityPin());
         order.setStatus(OrderStatus.DELIVERED);
         orderPersistencePort.update(order);
+        registerStatusChange(order);
         return new NotificationMessageDTO("", "The order #" + deliverOrderDTO.getOrderId() + " was delivered successfully");
     }
 
@@ -74,6 +79,14 @@ public class DeliverOrderUseCase implements OrderServicePort {
         return user.getId();
     }
 
+    private void registerStatusChange(Order order) {
+        StatusChange statusChange = new StatusChange();
+        statusChange.setOrderId(order.getId());
+        statusChange.setClientId(order.getClientId());
+        statusChange.setStatus(order.getStatus().name());
+        statusChange.setChangeDate(new Date());
+        statusChangePersistencePort.registerStatusChange(statusChange);
+    }
 
     @Override
     public Order createOrder(Order order) {

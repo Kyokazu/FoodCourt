@@ -1,16 +1,9 @@
 package com.foodcourt.proyect.config;
 
-import com.foodcourt.proyect.domain.repositoryPort.OrderPersistencePort;
-import com.foodcourt.proyect.domain.repositoryPort.PlatePersistencePort;
-import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
-import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
-import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
-import com.foodcourt.proyect.domain.servicePort.PlateServicePort;
-import com.foodcourt.proyect.domain.servicePort.RestaurantServicePort;
-import com.foodcourt.proyect.domain.servicePort.UserServicePort;
+import com.foodcourt.proyect.domain.repositoryPort.*;
+import com.foodcourt.proyect.domain.servicePort.*;
 import com.foodcourt.proyect.domain.useCase.*;
-import com.foodcourt.proyect.infrastructure.mapper.PlateDTOMapper;
-import com.foodcourt.proyect.infrastructure.persistence.repository.UserRepository;
+import com.foodcourt.proyect.infrastructure.persistence.jpa.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -95,8 +88,9 @@ public class Config {
             OrderPersistencePort orderPersistencePort,
             PlatePersistencePort platePersistencePort,
             RestaurantPersistencePort restaurantPersistencePort,
-            UserPersistencePort userRepository) {
-        return new CreateOrderUseCase(orderPersistencePort, platePersistencePort, restaurantPersistencePort, userRepository);
+            UserPersistencePort userRepository,
+            StatusChangePersistencePort statusChangePersistencePort) {
+        return new CreateOrderUseCase(orderPersistencePort, platePersistencePort, restaurantPersistencePort, userRepository, statusChangePersistencePort);
     }
 
     @Bean
@@ -111,8 +105,9 @@ public class Config {
     @Qualifier("assignOrder")
     public OrderServicePort assignOrder(
             OrderPersistencePort orderPersistencePort,
-            RestaurantPersistencePort restaurantPersistencePort) {
-        return new AssignOrder(orderPersistencePort, restaurantPersistencePort);
+            RestaurantPersistencePort restaurantPersistencePort,
+            StatusChangePersistencePort statusChangePersistencePort) {
+        return new AssignOrder(orderPersistencePort, restaurantPersistencePort, statusChangePersistencePort);
     }
 
     @Bean
@@ -120,24 +115,44 @@ public class Config {
     public OrderServicePort notifyReadyOrder(
             OrderPersistencePort orderPersistencePort,
             RestaurantPersistencePort restaurantPersistencePort,
-            UserPersistencePort userRepository) {
-        return new NotifyOrderReadyUseCase(orderPersistencePort, restaurantPersistencePort, userRepository);
+            UserPersistencePort userRepository,
+            StatusChangePersistencePort statusChangePersistencePort) {
+        return new NotifyOrderReadyUseCase(orderPersistencePort, restaurantPersistencePort, userRepository, statusChangePersistencePort);
     }
 
     @Bean
     @Qualifier("deliverOrder")
     public OrderServicePort deliverOrder(
             OrderPersistencePort orderPersistencePort,
-            RestaurantPersistencePort restaurantPersistencePort) {
-        return new DeliverOrderUseCase(orderPersistencePort, restaurantPersistencePort);
+            RestaurantPersistencePort restaurantPersistencePort,
+            StatusChangePersistencePort statusChangePersistencePort) {
+        return new DeliverOrderUseCase(orderPersistencePort, restaurantPersistencePort, statusChangePersistencePort);
     }
 
     @Bean
     @Qualifier("cancelOrder")
     public OrderServicePort cancelOrder(
-            OrderPersistencePort orderPersistencePort) {
-        return new CancelOrderUseCase(orderPersistencePort);
+            OrderPersistencePort orderPersistencePort,
+            StatusChangePersistencePort statusChangePersistencePort) {
+        return new CancelOrderUseCase(orderPersistencePort, statusChangePersistencePort);
     }
+
+    @Bean
+    @Qualifier("statusChange")
+    public StatusChangeServicePort statusChange(
+            StatusChangePersistencePort statusChangePersistencePort) {
+        return new RegisterStatusChangeUseCase(statusChangePersistencePort);
+    }
+
+    @Bean
+    @Qualifier("orderEfficiency")
+    public StatusChangeServicePort orderEfficiency(
+            StatusChangePersistencePort statusChangePersistencePort,
+            OrderPersistencePort orderPersistencePort,
+            RestaurantPersistencePort restaurantPersistencePort) {
+        return new OrderEfficiencyUseCase(statusChangePersistencePort, orderPersistencePort, restaurantPersistencePort);
+    }
+
 
     @Bean
     public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration config) throws Exception {

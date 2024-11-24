@@ -12,6 +12,7 @@ Hexagonal Architecture
 - Spring Security
 - JWT
 - Twilio
+- MongoDB
 
 ## Current Functionalities
 
@@ -30,6 +31,8 @@ Hexagonal Architecture
 - Notify ready order
 - Deliver order
 - Cancel order
+- Client's listing Order Status change timeline
+- Order and employee Ranking
 
 ## Changelog
 
@@ -82,3 +85,13 @@ v1.1.0
 - Added CancelOrderUseCase for cancelling pending orders
 - Code was refactor for deleting generic implementations
 - Added Qualifier cancelOrder
+
+v1.1.1
+
+- Added StatusChangeUseCase listing status change of a client's orders
+- Modified ALL orderUseCases for inserting into MongoDB collection the date of status change
+- Added Qualifier statusChange
+- Added TrazabilityController for methods to interact with time/log metrics.
+- Added connection to MongoDB for Log history of orders.
+- Added order and employee ranking
+
