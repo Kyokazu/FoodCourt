@@ -145,6 +145,16 @@ public class Config {
     }
 
     @Bean
+    @Qualifier("orderEfficiency")
+    public StatusChangeServicePort orderEfficiency(
+            StatusChangePersistencePort statusChangePersistencePort,
+            OrderPersistencePort orderPersistencePort,
+            RestaurantPersistencePort restaurantPersistencePort) {
+        return new OrderEfficiencyUseCase(statusChangePersistencePort, orderPersistencePort, restaurantPersistencePort);
+    }
+
+
+    @Bean
     public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }

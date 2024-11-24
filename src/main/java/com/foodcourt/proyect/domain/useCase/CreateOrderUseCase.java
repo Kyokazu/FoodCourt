@@ -87,7 +87,7 @@ public class CreateOrderUseCase implements OrderServicePort {
         if (!validateExistentPlate(order.getPlateList())) {
             throw new PlatoInexistenteException();
         }
-        if (!validateUserOrderStatus(order.getClientId())) {
+        if (validateUserOrderStatus(order.getClientId())) {
             throw new PedidoDeClientInvalidoException();
         }
         if (!validatePlateSameRestaurant(order.getPlateList(), getRestaurantId(order.getPlateList()))) {
@@ -114,19 +114,23 @@ public class CreateOrderUseCase implements OrderServicePort {
     private boolean validateExistentPlate(String plateIds) {
         List<String> list = Arrays.asList(plateIds.split(","));
         List<Plate> pltList = platePersistencePort.findAll();
-        return list.stream().allMatch(plateIdStr -> {
-            Long plateId = Long.parseLong(plateIdStr.trim());
-            return pltList.stream().anyMatch(plate -> plate.getId().equals(plateId));
-        });
+        return list
+                .stream()
+                .allMatch(plateIdStr -> {
+                    Long plateId = Long.parseLong(plateIdStr.trim());
+                    return pltList.stream().anyMatch(plate -> plate.getId().equals(plateId));
+                });
     }
 
     private boolean validatePlateSameRestaurant(String plateIds, Long restaurantId) {
         List<String> idList = Arrays.asList(plateIds.split(","));
-        return idList.stream().allMatch(plateIdStr -> {
-            Long plateId = Long.parseLong(plateIdStr.trim());
-            Plate existingPlate = platePersistencePort.findById(plateId);
-            return existingPlate != null && existingPlate.getRestaurantId().equals(restaurantId);
-        });
+        return idList
+                .stream()
+                .allMatch(plateIdStr -> {
+                    Long plateId = Long.parseLong(plateIdStr.trim());
+                    Plate existingPlate = platePersistencePort.findById(plateId);
+                    return existingPlate != null && existingPlate.getRestaurantId().equals(restaurantId);
+                });
     }
 
     private boolean validateUserOrderStatus(Long clientId) {
@@ -134,7 +138,8 @@ public class CreateOrderUseCase implements OrderServicePort {
         return orders
                 .stream()
                 .filter(order -> order.getClientId().equals(clientId))
-                .anyMatch(order -> order.getStatus() == OrderStatus.CANCELED
-                        || order.getStatus() == OrderStatus.DELIVERED);
+                .anyMatch(order -> order.getStatus() == OrderStatus.PENDING
+                        || order.getStatus() == OrderStatus.ON_PREPARATION
+                        || order.getStatus() == OrderStatus.READY);
     }
 }
