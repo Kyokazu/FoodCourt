@@ -32,6 +32,7 @@ Hexagonal Architecture
 - Deliver order
 - Cancel order
 - Client's listing Order Status change timeline
+- Order and employee Ranking
 
 ## Changelog
 
@@ -92,3 +93,5 @@ v1.1.1
 - Added Qualifier statusChange
 - Added TrazabilityController for methods to interact with time/log metrics.
 - Added connection to MongoDB for Log history of orders.
+- Added order and employee ranking
+
