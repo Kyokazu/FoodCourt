@@ -1,9 +1,9 @@
-package com.foodcourt.proyect.infrastructure.persistence.adapter;
+package com.foodcourt.proyect.infrastructure.persistence.jpa.adapter;
 
 import com.foodcourt.proyect.domain.model.User;
 import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
 import com.foodcourt.proyect.infrastructure.mapper.UserEntityMapper;
-import com.foodcourt.proyect.infrastructure.persistence.repository.UserRepository;
+import com.foodcourt.proyect.infrastructure.persistence.jpa.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +21,6 @@ public class UserAdapterRepository implements UserPersistencePort {
         return userEntityMapper.AToB(userRepository.findById(aLong).get());
     }
 
-    @Override
     public List<User> findAll() {
         return userEntityMapper.AToB(userRepository.findAll().stream()).collect(Collectors.toList());
     }
@@ -31,12 +30,10 @@ public class UserAdapterRepository implements UserPersistencePort {
         return userEntityMapper.AToB(userRepository.save(userEntityMapper.BToA(entity)));
     }
 
-    @Override
     public void update(User entity) {
         userRepository.save(userEntityMapper.BToA(entity));
     }
 
-    @Override
     public void delete(User entity) {
         userRepository.delete(userEntityMapper.BToA(entity));
     }

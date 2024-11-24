@@ -5,19 +5,22 @@ import com.foodcourt.proyect.domain.exception.OrdenNoPendienteException;
 import com.foodcourt.proyect.domain.exception.OrderDeOtroRestauranteException;
 import com.foodcourt.proyect.domain.model.Order;
 import com.foodcourt.proyect.domain.model.OrderStatus;
+import com.foodcourt.proyect.domain.model.StatusChange;
 import com.foodcourt.proyect.domain.repositoryPort.OrderPersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
+import com.foodcourt.proyect.domain.repositoryPort.StatusChangePersistencePort;
 import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
 import com.foodcourt.proyect.infrastructure.dto.ClientNotificationDTO;
 import com.foodcourt.proyect.infrastructure.dto.DeliverOrderDTO;
 import com.foodcourt.proyect.infrastructure.dto.NotificationMessageDTO;
 import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
-import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
+import com.foodcourt.proyect.infrastructure.persistence.jpa.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class AssignOrder implements OrderServicePort {
 
     private final OrderPersistencePort orderPersistencePort;
     private final RestaurantPersistencePort restaurantPersistencePort;
+    private final StatusChangePersistencePort statusChangePersistencePort;
 
 
     @Override
@@ -45,6 +49,7 @@ public class AssignOrder implements OrderServicePort {
         order.setAssignedEmployee(getEmployeeId());
         order.setStatus(OrderStatus.ON_PREPARATION);
         orderPersistencePort.update(order);
+        registerStatusChange(order);
         return order;
     }
 
@@ -75,6 +80,16 @@ public class AssignOrder implements OrderServicePort {
             throw new OrderDeOtroRestauranteException();
         }
     }
+
+    private void registerStatusChange(Order order) {
+        StatusChange statusChange = new StatusChange();
+        statusChange.setOrderId(order.getId());
+        statusChange.setClientId(order.getClientId());
+        statusChange.setStatus(order.getStatus().name());
+        statusChange.setChangeDate(new Date());
+        statusChangePersistencePort.registerStatusChange(statusChange);
+    }
+
 
     private boolean validateOrderFromEmployeeRestaurant(Order order) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

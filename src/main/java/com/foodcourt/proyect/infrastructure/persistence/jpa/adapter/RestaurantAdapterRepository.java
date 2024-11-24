@@ -1,10 +1,10 @@
-package com.foodcourt.proyect.infrastructure.persistence.adapter;
+package com.foodcourt.proyect.infrastructure.persistence.jpa.adapter;
 
 import com.foodcourt.proyect.domain.model.Restaurant;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
 import com.foodcourt.proyect.infrastructure.mapper.RestaurantEntityMapper;
-import com.foodcourt.proyect.infrastructure.persistence.entity.RestaurantEntity;
-import com.foodcourt.proyect.infrastructure.persistence.repository.RestaurantRepository;
+import com.foodcourt.proyect.infrastructure.persistence.jpa.entity.RestaurantEntity;
+import com.foodcourt.proyect.infrastructure.persistence.jpa.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -38,7 +38,6 @@ public class RestaurantAdapterRepository implements RestaurantPersistencePort {
         restaurantRepository.save(restaurantEntityMapper.BToA(entity));
     }
 
-    @Override
     public void delete(Restaurant entity) {
         restaurantRepository.delete(restaurantEntityMapper.BToA(entity));
     }

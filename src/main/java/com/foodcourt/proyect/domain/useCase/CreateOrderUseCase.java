@@ -6,22 +6,21 @@ import com.foodcourt.proyect.domain.exception.RestauranteInexistenteException;
 import com.foodcourt.proyect.domain.model.Order;
 import com.foodcourt.proyect.domain.model.OrderStatus;
 import com.foodcourt.proyect.domain.model.Plate;
-import com.foodcourt.proyect.domain.repositoryPort.OrderPersistencePort;
-import com.foodcourt.proyect.domain.repositoryPort.PlatePersistencePort;
-import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
-import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
+import com.foodcourt.proyect.domain.model.StatusChange;
+import com.foodcourt.proyect.domain.repositoryPort.*;
 import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
 import com.foodcourt.proyect.infrastructure.dto.ClientNotificationDTO;
 import com.foodcourt.proyect.infrastructure.dto.DeliverOrderDTO;
 import com.foodcourt.proyect.infrastructure.dto.NotificationMessageDTO;
 import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
-import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
+import com.foodcourt.proyect.infrastructure.persistence.jpa.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -32,6 +31,7 @@ public class CreateOrderUseCase implements OrderServicePort {
     private final PlatePersistencePort platePersistencePort;
     private final RestaurantPersistencePort restaurantPersistencePort;
     private final UserPersistencePort userPersistencePort;
+    private final StatusChangePersistencePort statusChangePersistencePort;
 
 
     public Order createOrder(Order order) {
@@ -40,8 +40,9 @@ public class CreateOrderUseCase implements OrderServicePort {
         validateOrder(order);
         order.setStatus(OrderStatus.PENDING);
         order.setAssignedEmployee(null);
-        orderPersistencePort.save(order);
-        return order;
+        Order newOrder = orderPersistencePort.save(order);
+        registerStatusChange(newOrder);
+        return newOrder;
     }
 
     @Override
@@ -67,6 +68,15 @@ public class CreateOrderUseCase implements OrderServicePort {
     @Override
     public NotificationMessageDTO cancelOrder(OrderDTO order) {
         return null;
+    }
+
+    private void registerStatusChange(Order order) {
+        StatusChange statusChange = new StatusChange();
+        statusChange.setOrderId(order.getId());
+        statusChange.setClientId(order.getClientId());
+        statusChange.setStatus(order.getStatus().name());
+        statusChange.setChangeDate(new Date());
+        statusChangePersistencePort.registerStatusChange(statusChange);
     }
 
     private void validateOrder(Order order) {

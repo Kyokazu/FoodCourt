@@ -1,12 +1,11 @@
 package com.foodcourt.proyect.infrastructure.security;
 
 
-import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
-import com.foodcourt.proyect.infrastructure.persistence.repository.UserRepository;
+import com.foodcourt.proyect.infrastructure.persistence.jpa.entity.UserEntity;
+import com.foodcourt.proyect.infrastructure.persistence.jpa.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

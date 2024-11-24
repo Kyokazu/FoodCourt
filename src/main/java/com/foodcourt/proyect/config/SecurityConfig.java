@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authRequest ->
                         authRequest
                                 .antMatchers("/user/login"
+                                        , "/user/logout"
                                         , "/user/createClient"
                                         , "/swagger-ui/**"
                                         , "/v2/api-docs"

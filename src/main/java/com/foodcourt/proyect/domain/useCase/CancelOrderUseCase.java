@@ -6,8 +6,10 @@ import com.foodcourt.proyect.domain.exception.OrderNoListaException;
 import com.foodcourt.proyect.domain.exception.PinInvalidoException;
 import com.foodcourt.proyect.domain.model.Order;
 import com.foodcourt.proyect.domain.model.OrderStatus;
+import com.foodcourt.proyect.domain.model.StatusChange;
 import com.foodcourt.proyect.domain.repositoryPort.OrderPersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
+import com.foodcourt.proyect.domain.repositoryPort.StatusChangePersistencePort;
 import com.foodcourt.proyect.domain.servicePort.OrderServicePort;
 import com.foodcourt.proyect.infrastructure.dto.ClientNotificationDTO;
 import com.foodcourt.proyect.infrastructure.dto.DeliverOrderDTO;
@@ -15,12 +17,14 @@ import com.foodcourt.proyect.infrastructure.dto.NotificationMessageDTO;
 import com.foodcourt.proyect.infrastructure.dto.OrderDTO;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
 public class CancelOrderUseCase implements OrderServicePort {
 
     private final OrderPersistencePort orderPersistencePort;
+    private final StatusChangePersistencePort statusChangePersistencePort;
 
     @Override
     public NotificationMessageDTO cancelOrder(OrderDTO order) {
@@ -33,6 +37,7 @@ public class CancelOrderUseCase implements OrderServicePort {
             Order order1 = orderPersistencePort.findById(order.getId());
             order1.setStatus(OrderStatus.CANCELED);
             orderPersistencePort.update(order1);
+            registerStatusChange(order1);
             String message = "Your order #"
                     + order.getId()
                     + " has been canceled!";
@@ -56,6 +61,15 @@ public class CancelOrderUseCase implements OrderServicePort {
 
     private boolean validateOrderStatus(Long orderId) {
         return orderPersistencePort.findById(orderId).getStatus() == OrderStatus.PENDING;
+    }
+
+    private void registerStatusChange(Order order) {
+        StatusChange statusChange = new StatusChange();
+        statusChange.setOrderId(order.getId());
+        statusChange.setClientId(order.getClientId());
+        statusChange.setStatus(order.getStatus().name());
+        statusChange.setChangeDate(new Date());
+        statusChangePersistencePort.registerStatusChange(statusChange);
     }
 
 

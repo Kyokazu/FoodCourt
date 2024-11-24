@@ -11,7 +11,7 @@ import com.foodcourt.proyect.domain.model.User;
 import com.foodcourt.proyect.domain.repositoryPort.RestaurantPersistencePort;
 import com.foodcourt.proyect.domain.repositoryPort.UserPersistencePort;
 import com.foodcourt.proyect.domain.servicePort.UserServicePort;
-import com.foodcourt.proyect.infrastructure.persistence.entity.UserEntity;
+import com.foodcourt.proyect.infrastructure.persistence.jpa.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
@@ -20,7 +20,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.List;
 import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
